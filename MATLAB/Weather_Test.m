@@ -1,7 +1,5 @@
 %% weather tester
 
-[ Cloud,Xwind,Ywind,X,Y ] = Static_Weather( 1,5,0.1 );
-    
-
-ar = Airplane(Cloud,Xwind,Ywind,X,Y);
+[ Cloud,Xwind,Ywind,X,Y ] = Static_Weather( 1,3,20 );
+surf(X,Y,Cloud)
 

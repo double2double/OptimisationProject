@@ -26,21 +26,26 @@ classdef Airplane
             obj.X = X;
             obj.Y = Y;
             obj.sun = sun;
-        end % Constructor method
-        function obj = SetStartPosition(x,y)
+        end 
+        function SetStartPosition(obj,x,y)
             obj.xStart = x;
-            obj.YStart = y;
+            obj.yStart = y;
         end
-        function obj = SetEndPosition(x,y)
+        function SetEndPosition(obj,x,y)
             obj.xEnd = x;
-            obj.YEnd = y;
+            obj.yEnd = y;
         end
-        function obj = cost(path)
+        function V = cost(obj,x,y)
             % A function to calculate the cast assosiated to a path. The
             % path is defined as a 3 by m vector with the x, y, t
             % coorditante in it.
-            
-            
+        end
+        function plot(obj,path)
+            hold off
+            surf(obj.X,obj.Y,(obj.clouds.*obj.sun))
+            hold on
+            hig = 0.*path(1,:)+3
+            plot3(path(2,:),path(1,:),hig,'LineWidth', 2);
         end
         
     end

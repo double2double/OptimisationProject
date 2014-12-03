@@ -6,18 +6,18 @@ function [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong )
 %munich
 %48°N, 11°E
 %brussels
-%50°N, 4°E
+% 50°N, 4°E
 % startLat = 50;
 % endLat = 48;
 % startLong = 0;
 % endLong = 10;
 % m = 20;
 % time = 12;
-% date = 180;
+date = 180;
 
 stepNumber = m;
-stepSizeLat = ((endLat - startLat)/m)
-stepSizeLong = ((endLong - startLong)/m)
+stepSizeLat = ((endLat - startLat)/m);
+stepSizeLong = ((endLong - startLong)/m);
 intensity = zeros(m);
 
 
@@ -26,7 +26,6 @@ for i = 1:1:m
         
        lat =  startLat + i*stepSizeLat;
        long = startLong + j*stepSizeLong;
-        
        intensity(i,j) = sun(long,lat,time,date); 
         
     end
