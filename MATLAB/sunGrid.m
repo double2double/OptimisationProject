@@ -1,4 +1,4 @@
-function [ intesity ] = sunGrid( m,time,startLat,startLong,endLat,endLong )
+function [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong )
 %This funciton returns a grid with sun intensity values depending on time
 %in hours. The number of days since the beginning of the year date.
 %the number of grid points m and the start and end position.
