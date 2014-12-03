@@ -1,4 +1,4 @@
-function [H,hourAngle,intensity] = sun(longitude,latitude,localtime,localdate)
+function [intensity] = sun(longitude,latitude,localtime,localdate)
         %This function calculates the sun-intensity based on local time
         %and position. Input is position in logitude and latitude in 
         %degrees. Its is assumed GMT is used with zero degrees in green-
@@ -8,7 +8,8 @@ function [H,hourAngle,intensity] = sun(longitude,latitude,localtime,localdate)
 %Find the local standart time zone, the world is divided into 24 time
 %zones with 360 degree latidue that means rougle a new time zone every
 %15 degrees.
-timeZone = double(int32(longitude/15));
+timeZone = double(floor(longitude/15));
+timeZone = 1;
 %With the newly computed time zone it's possible to compute the meridian,
 %that belongs to this specific time zone. It's colled the Local Standard Time Meridian
 localStandartTimeMeridian = 15 * timeZone;
@@ -27,7 +28,6 @@ localSolarTime = localtime + timeCorrection/60;
 
 %With the now corrected time its possible to find the hour Angle of the
 %sun:
-localtime
 %with uncool linear polinomial to deal adjust for latitude. Better Ideas?
 hourAngle = 15 * (localSolarTime - 12) * (-0.006197 * latitude +  1.024);
 
