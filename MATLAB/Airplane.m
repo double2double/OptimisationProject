@@ -47,7 +47,7 @@ classdef Airplane < handle
             endPos = posVector(end,1:2);
             VStartEnd = norm(startPos - [obj.xStart,obj.yStart]) + ...
                         norm(endPos - [obj.xEnd,obj.yEnd]);
-            obj.V(1) = VStartEnd;
+            obj.V(1) = VStartEnd*obj.posWeight;
                     
             dx = 1/obj.N;
             VSunGain = 0;
@@ -61,7 +61,7 @@ classdef Airplane < handle
                 VSunGain = VSunGain + currentSolarGain;
             end
             VSunGain = VSunGain*dx;
-            obj.V(2) = VSunGain;
+            obj.V(2) = VSunGain*obj.solarWeight;
             
             %minimize the acceleration.
             stepLength = zeros(obj.N-1,1);
@@ -77,10 +77,10 @@ classdef Airplane < handle
             %add acceraltion cost.
             index = (acceleration > 0);
             posAcceleration = acceleration(index);
-            Vacc = posAcceleration'*posAcceleration*0; %* self.mass;
-            obj.V(3) = Vacc;
+            Vacc = posAcceleration'*posAcceleration; %* self.mass;
+            obj.V(3) = Vacc*obj.accelerationWeight;
             
-            V = obj.solarWeight*VSunGain + obj.accelerationWeight*Vacc + ...
+            V = obj.solarWeight*VSunGain + obj.accelerationWeight*Vacc - ...
                 obj.posWeight*VStartEnd;
 
         end
