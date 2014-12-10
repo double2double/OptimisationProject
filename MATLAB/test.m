@@ -9,7 +9,7 @@ time = 12;
 date = 180;
 
 
-[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 1,2,m );
+[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 3,6,m );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
 plane = Airplane(Vcloud,VwindX,VwindY,X,Y,intensity);
 plane.SetStartPosition(0.1,0.5);
@@ -20,7 +20,7 @@ plane.SetEndPosition(0.9,0.5);
  
 x = linspace(0.1,0.9,20);
 t = linspace(0,1,20);
-y = sin(t*2*pi)/4 + 0.5;
+y = -sin(t*2*pi)/4 + 0.5;
 
 path = [x;y;t]';
 
@@ -28,8 +28,10 @@ path = [x;y;t]';
 plane.posWeight = 100;
 plane.accelerationWeight = 0.001;
 
+qb = zeros(20,4);
+ub = ones(20,4);
 
-[opt ,V] = fminunc(@plane.weatherSpeedCost, path, optimset('LargeScale','off'));
+[opt ,V] = fmincon(@plane.weatherSpeedCost, path, [],[],[],[],qb,ub);
 
 plane.plot(opt);
 hold off

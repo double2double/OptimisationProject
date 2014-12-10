@@ -18,9 +18,10 @@ classdef Airplane < handle
         yEnd = 1;
         electricEnergy = 1;
         V = zeros(3,1);
-        solarWeight = 1000;
-        posWeight = 1000000;
-        accelerationWeight = 1;
+        % Scaling parameters
+        solarWeight = 1;
+        posWeight = 1;
+        accelerationWeight = 100;
     end
     methods
         function obj = Airplane(clouds,windX,windY,X,Y,sun)
@@ -47,10 +48,18 @@ classdef Airplane < handle
             endPos = posVector(end,1:2);
             VStartEnd = norm(startPos - [obj.xStart,obj.yStart]) + ...
                         norm(endPos - [obj.xEnd,obj.yEnd]);
-            obj.V(1) = VStartEnd*obj.posWeight;
+            obj.V(1) = VStartEnd*1;
                     
             dx = 1/obj.N;
             VSunGain = 0;
+            index = ( posVector(:,1) >1  &  posVector(:,1) <0);
+            index = (index & (posVector(:,1) >1  &  posVector(:,1) <0 ));
+            if (sum(index) > 1)
+                V = Inf;
+            else
+                V = 0;
+            end
+            
             %Weather cost.
             for i = 1:1:length(posVector)
                 %Get the position.
@@ -59,19 +68,14 @@ classdef Airplane < handle
                 currentSolarGain = interp2(obj.X,obj.Y,obj.solarGain,xPos,yPos,'spline');
     
                 VSunGain = VSunGain + currentSolarGain;
-                if (isnan(VSunGain))
-                    xPos
-                    yPos
-                    currentSolarGain = interp2(obj.X,obj.Y,obj.solarGain,xPos,yPos,'spline')
-                end
             end
             VSunGain = VSunGain*dx;
-            obj.V(2) = VSunGain*obj.solarWeight;
+            obj.V(2) = - VSunGain*1;
             
             %minimize the acceleration.
             stepLength = zeros(obj.N-1,1);
             for i = 1:(obj.N-1)
-                 stepLength(i) = norm(posVector(i) - posVector(i+1));   
+                 stepLength(i) = norm(posVector(i,1:2) - posVector(i+1,1:2));   
             end
             acceleration = zeros(obj.N-3,1);
             for i = 1:(obj.N-3)
@@ -83,10 +87,9 @@ classdef Airplane < handle
             index = (acceleration > 0);
             posAcceleration = acceleration(index);
             Vacc = posAcceleration'*posAcceleration; %* self.mass;
-            obj.V(3) = Vacc*obj.accelerationWeight;
+            obj.V(3) = Vacc*0.1;
             
-            V = sum(obj.V);
-            V = abs(V);
+            V = V+sum(obj.V)
 
         end
 
