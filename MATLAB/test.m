@@ -9,7 +9,7 @@ time = 12;
 date = 180;
 
 
-[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 3,6,m );
+[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,10,m );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
 plane = Airplane(Vcloud,VwindX,VwindY,X,Y,intensity);
 plane.SetStartPosition(0.1,0.5);
@@ -20,7 +20,7 @@ plane.SetEndPosition(0.9,0.5);
  
 x = linspace(0.1,0.9,m);
 t = linspace(0,1,m);
-y = sin(t*20*pi)/4 + 0.5;
+y = x.*0 + 0.5;
 
 path = [x;y]';
 

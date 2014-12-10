@@ -62,6 +62,7 @@ classdef Airplane < handle
                 %evalute central differences to find the second derivative:
                 acceleration(i) = (speed(i) - 2*speed(i+1) + speed(i+2))/dt;
             end
+            Vdrag = speed'*speed*200;
             index = (acceleration > 0);
             posAcceleration = acceleration(index);
             Vacc = posAcceleration'*posAcceleration;
@@ -74,7 +75,7 @@ classdef Airplane < handle
                 yPos = posVector(i,2);
                 NextxPos = posVector(i+1,1);
                 NextyPos = posVector(i+1,2);
-                n = ceil(stepLength(i)*100);
+                n = ceil(stepLength(i)*5);
                 dx = stepLength(i)/n;
                 points = [linspace(xPos,NextxPos,n);linspace(yPos,NextyPos,n)];
                 for j=1:n
@@ -86,7 +87,7 @@ classdef Airplane < handle
             end
             VSunGain = tmp .* Vsun;
             obj.V(2) = VSunGain;
-            V = obj.power+sum(obj.V);
+            V = obj.power+sum(obj.V) +Vdrag
 
         end
 
