@@ -42,47 +42,51 @@ classdef Airplane < handle
         end
         function [ V ] = weatherSpeedCost(obj, posVector )
             %% Debug cost function to check whats done so far.
-            %        
-            dx = 1/obj.N;
-            VSunGain = 0;
-            index = ( posVector(:,1) >1  &  posVector(:,1) <0);
-            index = (index & (posVector(:,1) >1  &  posVector(:,1) <0 ));
-            if (sum(index) > 1)
-                V = Inf;
-            else
-                V = 0;
-            end
-            
-            %Weather cost.
-            for i = 1:1:length(posVector)
-                %Get the position.
-                xPos = posVector(i,1);
-                yPos = posVector(i,2);    
-                currentSolarGain = interp2(obj.X,obj.Y,obj.solarGain,xPos,yPos,'spline');
-    
-                VSunGain = VSunGain + currentSolarGain;
-            end
-            VSunGain = VSunGain*dx;
-            obj.V(2) = - VSunGain*1;
-            
-            %minimize the acceleration.
+            % setting up some parameters
             stepLength = zeros(obj.N-1,1);
-            for i = 1:(obj.N-1)
-                 stepLength(i) = norm(posVector(i,1:2) - posVector(i+1,1:2));   
-            end
+            speed = zeros(obj.N-1,1);
             acceleration = zeros(obj.N-3,1);
+            T = 10;
+            VSunGain = 0;
+            Vsun = -1;
+            Vaccel = 0.01;
+            % Calculating the path lenght.
+            for i = 1:(obj.N-1)
+                 stepLength(i) = norm(posVector(i,1:2) - posVector(i+1,1:2));
+            end
+            len = sum(stepLength);
+            dt = T/len;
+            speed = stepLength./dt;
+            % Calculating the acceleration
             for i = 1:(obj.N-3)
                 %evalute central differences to find the second derivative:
-                acceleration(i) = (stepLength(i) - 2*stepLength(i+1) + stepLength(i+2))/dx^2;
+                acceleration(i) = (speed(i) - 2*speed(i+1) + speed(i+2))/dt;
             end
-            %acceleration = [0 acceleration 0];
-            %add acceraltion cost.
             index = (acceleration > 0);
             posAcceleration = acceleration(index);
-            Vacc = posAcceleration'*posAcceleration; %* self.mass;
-            obj.V(3) = Vacc*0.01;
-            
-            V = V+sum(obj.V)
+            Vacc = posAcceleration'*posAcceleration;
+            obj.V(1) = Vacc*Vaccel;
+            %Weather cost.
+            tmp = 0;
+            for i = 1:1:(obj.N-1)
+                %Get the position.
+                xPos = posVector(i,1);
+                yPos = posVector(i,2);
+                NextxPos = posVector(i+1,1);
+                NextyPos = posVector(i+1,2);
+                n = ceil(stepLength(i)*100);
+                dx = stepLength(i)/n;
+                points = [linspace(xPos,NextxPos,n);linspace(yPos,NextyPos,n)];
+                for j=1:n
+                    x = points(1,j);
+                    y = points(2,j);
+                    currentSolarGain = interp2(obj.X,obj.Y,obj.solarGain,x,y,'spline');
+                    tmp = tmp+currentSolarGain*dx;
+                end
+            end
+            VSunGain = tmp .* Vsun;
+            obj.V(2) = VSunGain;
+            V = obj.power+sum(obj.V);
 
         end
 
