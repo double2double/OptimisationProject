@@ -23,7 +23,7 @@ t = linspace(0,1,20);
 
 path = [x;y;t];
 
-plane.plot(path)
+plane.getSun(0,1/pi)
 
 
 
