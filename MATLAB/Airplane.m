@@ -18,8 +18,8 @@ classdef Airplane < handle
         yEnd = 1;
         electricEnergy = 1;
         V = zeros(3,1);
-        solarWeight = 1;
-        posWeight = 1;
+        solarWeight = 1000;
+        posWeight = 1000000;
         accelerationWeight = 1;
     end
     methods
@@ -56,9 +56,14 @@ classdef Airplane < handle
                 %Get the position.
                 xPos = posVector(i,1);
                 yPos = posVector(i,2);    
-                currentSolarGain = interp2(obj.X,obj.Y,obj.solarGain,xPos,yPos);
+                currentSolarGain = interp2(obj.X,obj.Y,obj.solarGain,xPos,yPos,'spline');
     
                 VSunGain = VSunGain + currentSolarGain;
+                if (isnan(VSunGain))
+                    xPos
+                    yPos
+                    currentSolarGain = interp2(obj.X,obj.Y,obj.solarGain,xPos,yPos,'spline')
+                end
             end
             VSunGain = VSunGain*dx;
             obj.V(2) = VSunGain*obj.solarWeight;
@@ -80,17 +85,17 @@ classdef Airplane < handle
             Vacc = posAcceleration'*posAcceleration; %* self.mass;
             obj.V(3) = Vacc*obj.accelerationWeight;
             
-            V = obj.solarWeight*VSunGain + obj.accelerationWeight*Vacc - ...
-                obj.posWeight*VStartEnd;
+            V = sum(obj.V);
+            V = abs(V);
 
         end
 
         function plot(obj,path)
-            hold off
+            figure()
             surf(obj.X,obj.Y,(obj.solarGain))
             hold on
-            hig = 0.*path(1,:)+3;
-            plot3(path(2,:),path(1,:),hig,'LineWidth', 2,'Color','r');
+            hig = 0.*path(:,1)+3;
+            plot3(path(:,1),path(:,2),hig,'LineWidth', 2,'Color','r');
             view([0,0,90])
         end
         function value = getSun(obj, x, y)

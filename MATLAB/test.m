@@ -1,5 +1,5 @@
 %% A first test
-
+close all
 startLat = 50;
 endLat = 48;
 startLong = 0;
@@ -12,27 +12,26 @@ date = 180;
 [ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 1,2,m );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
 plane = Airplane(Vcloud,VwindX,VwindY,X,Y,intensity);
-plane.SetStartPosition(0.5,0.1);
-plane.SetEndPosition(0.5,0.9);
+plane.SetStartPosition(0.1,0.5);
+plane.SetEndPosition(0.9,0.5);
 
 % Create an initial guess for the path.
 
  
-y = linspace(0,1,20);
-x = sin(y*pi);
+x = linspace(0.1,0.9,20);
 t = linspace(0,1,20);
+y = sin(t*2*pi)/4 + 0.5;
 
-path = [x;y;t];
+path = [x;y;t]';
 
 
 plane.posWeight = 100;
 plane.accelerationWeight = 0.001;
 
 
-[opt ,V] = fminunc(@plane.weatherSpeedCost, path', optimset('LargeScale','off'));
+[opt ,V] = fminunc(@plane.weatherSpeedCost, path, optimset('LargeScale','off'));
 
-figure(1)
-plane.plot(opt');
-figure(2)
+plane.plot(opt);
+hold off
 plane.plot(path);
 
