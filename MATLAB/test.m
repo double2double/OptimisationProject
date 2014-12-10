@@ -26,7 +26,7 @@ path = [x;y;t];
 
 
 plane.posWeight = 100;
-plane.accelerationWeight = 0.1;
+plane.accelerationWeight = 0.001;
 
 
 [opt ,V] = fminunc(@plane.weatherSpeedCost, path', optimset('LargeScale','off'));
