@@ -42,14 +42,7 @@ classdef Airplane < handle
         end
         function [ V ] = weatherSpeedCost(obj, posVector )
             %% Debug cost function to check whats done so far.
-            %
-            
-            startPos = posVector(1,1:2);
-            endPos = posVector(end,1:2);
-            VStartEnd = norm(startPos - [obj.xStart,obj.yStart]) + ...
-                        norm(endPos - [obj.xEnd,obj.yEnd]);
-            obj.V(1) = VStartEnd*1;
-                    
+            %        
             dx = 1/obj.N;
             VSunGain = 0;
             index = ( posVector(:,1) >1  &  posVector(:,1) <0);
@@ -87,7 +80,7 @@ classdef Airplane < handle
             index = (acceleration > 0);
             posAcceleration = acceleration(index);
             Vacc = posAcceleration'*posAcceleration; %* self.mass;
-            obj.V(3) = Vacc*0.1;
+            obj.V(3) = Vacc*0.01;
             
             V = V+sum(obj.V)
 
