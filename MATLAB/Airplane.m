@@ -1,10 +1,11 @@
-classdef Airplane
-    %UNTITLED5 Summary of this class goes here
-    %   Detailed explanation goes here
+classdef Airplane < handle
+    %(clouds,windX,windY,sun)
+    %Detailed explanation goes here
     properties
-        clouds = [];
+        solarGain = []; %weather times sun intensity
         windX = [];
         windY = [];
+        N = [];
         X = [];
         Y = [];
         sun = [];
@@ -16,15 +17,19 @@ classdef Airplane
         xEnd = 1;
         yEnd = 1;
         electricEnergy = 1;
+        V = zeros(3,1);
+        solarWeight = 1;
+        posWeight = 1;
+        accelerationWeight = 1;
     end
     methods
         function obj = Airplane(clouds,windX,windY,X,Y,sun)
-            obj.clouds = clouds;
+            obj.solarGain = clouds .* sun;
             obj.windX = windX;
             obj.windY = windY;
             obj.X = X;
             obj.Y = Y;
-            obj.sun = sun;
+            [obj.N,~] = size(X);
         end 
         function SetStartPosition(obj,x,y)
             obj.xStart = x;
@@ -34,25 +39,58 @@ classdef Airplane
             obj.xEnd = x;
             obj.yEnd = y;
         end
-        function V = cost(obj,path)
-            % A function to calculate the cast assosiated to a path. The
-            % path is defined as a 3 by m vector with the x, y, t
-            % coorditante in it.
+        function [ V ] = weatherSpeedCost(obj, posVector )
+            %% Debug cost function to check whats done so far.
+            %
             
-            % Calculate the speed:
-                ...
+            startPos = posVector(1,1:2);
+            endPos = posVector(end,1:2);
+            VStartEnd = norm(startPos - [obj.xStart,obj.yStart]) + ...
+                        norm(endPos - [obj.xEnd,obj.yEnd]);
+            obj.V(1) = VStartEnd;
                     
-            % Calculate the energy
-                ...
+            dx = 1/obj.N;
+            VSunGain = 0;
+            %Weather cost.
+            for i = 1:1:length(posVector)
+                %Get the position.
+                xPos = posVector(i,1);
+                yPos = posVector(i,2);    
+                currentSolarGain = interp2(obj.X,obj.Y,obj.solarGain,xPos,yPos);
+    
+                VSunGain = VSunGain + currentSolarGain;
+            end
+            VSunGain = VSunGain*dx;
+            obj.V(2) = VSunGain;
             
+            %minimize the acceleration.
+            stepLength = zeros(obj.N-1,1);
+            for i = 1:(obj.N-1)
+                 stepLength(i) = norm(posVector(i) - posVector(i+1));   
+            end
+            acceleration = zeros(obj.N-3,1);
+            for i = 1:(obj.N-3)
+                %evalute central differences to find the second derivative:
+                acceleration(i) = (stepLength(i) - 2*stepLength(i+1) + stepLength(i+2))/dx^2;
+            end
+            %acceleration = [0 acceleration 0];
+            %add acceraltion cost.
+            index = (acceleration > 0);
+            posAcceleration = acceleration(index);
+            Vacc = posAcceleration'*posAcceleration*0; %* self.mass;
+            obj.V(3) = Vacc;
             
+            V = obj.solarWeight*VSunGain + obj.accelerationWeight*Vacc + ...
+                obj.posWeight*VStartEnd;
+
         end
+
         function plot(obj,path)
             hold off
-            surf(obj.X,obj.Y,(obj.clouds.*obj.sun))
+            surf(obj.X,obj.Y,(obj.solarGain))
             hold on
             hig = 0.*path(1,:)+3;
-            plot3(path(2,:),path(1,:),hig,'LineWidth', 2);
+            plot3(path(2,:),path(1,:),hig,'LineWidth', 2,'Color','r');
             view([0,0,90])
         end
         function value = getSun(obj, x, y)
@@ -60,7 +98,7 @@ classdef Airplane
             value = interp2(obj.X,obj.Y,obj.clouds.*obj.sun,x,y,'cubic');
         end
     end
-    
+   
     
 end
 

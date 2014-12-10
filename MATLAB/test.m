@@ -17,14 +17,22 @@ plane.SetEndPosition(0.5,0.9);
 
 % Create an initial guess for the path.
 
+ 
 y = linspace(0,1,20);
-x = linspace(0.5,0.5,20);
+x = sin(y*pi);
 t = linspace(0,1,20);
 
 path = [x;y;t];
 
-plane.getSun(0,1/pi)
+
+plane.posWeight = 100;
+plane.accelerationWeight = 0.1;
 
 
+[opt ,V] = fminunc(@plane.weatherSpeedCost, path', optimset('LargeScale','off'));
 
+figure(1)
+plane.plot(opt');
+figure(2)
+plane.plot(path);
 
