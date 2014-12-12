@@ -40,63 +40,95 @@ classdef Airplane < handle
             obj.xEnd = x;
             obj.yEnd = y;
         end
-        function [ V ] = weatherSpeedCost(obj, posVector )
-            %% Debug cost function to check whats done so far.
+        function [ V ] = weatherSpeedCost(obj, traject )
+            % Debug cost function to check whats done so far.
             % setting up some parameters
-            stepLength = zeros(obj.N-1,1);
-            speed = zeros(obj.N-1,1);
-            acceleration = zeros(obj.N-3,1);
-            T = 10;
-            VSunGain = 0;
-            Vsun = -1;
-            Vaccel = 0.01;
-            % Calculating the path lenght.
-            for i = 1:(obj.N-1)
-                 stepLength(i) = norm(posVector(i,1:2) - posVector(i+1,1:2));
-            end
-            len = sum(stepLength);
-            dt = T/len;
+            Vaccel = 1/200;
+            Vsun = -500;
+            Vdrag = 20;
+            % Calculating the traject lenght.
+            stepLength = obj.stepLength(traject);
+            dt = obj.timeSteps(traject);
             speed = stepLength./dt;
+            acceleration = zeros(obj.N-3,1);
             % Calculating the acceleration
             for i = 1:(obj.N-3)
                 %evalute central differences to find the second derivative:
-                acceleration(i) = (speed(i) - 2*speed(i+1) + speed(i+2))/dt;
+                acceleration(i) = (stepLength(i) - 2*stepLength(i+1) + stepLength(i+2))/(dt(i)^2);
             end
-            Vdrag = speed'*speed*200;
-            index = (acceleration > 0);
-            posAcceleration = acceleration(index);
-            Vacc = posAcceleration'*posAcceleration;
-            obj.V(1) = Vacc*Vaccel;
+            
+            posAcceleration = acceleration((acceleration > 0));
+            Accel = posAcceleration'*posAcceleration;
+            
             %Weather cost.
-            tmp = 0;
+            Sun = 0;
             for i = 1:1:(obj.N-1)
                 %Get the position.
-                xPos = posVector(i,1);
-                yPos = posVector(i,2);
-                NextxPos = posVector(i+1,1);
-                NextyPos = posVector(i+1,2);
-                n = ceil(stepLength(i)*5);
-                dx = stepLength(i)/n;
-                points = [linspace(xPos,NextxPos,n);linspace(yPos,NextyPos,n)];
+                xPos = traject(i,1);
+                yPos = traject(i,2);
+                NextxPos = traject(i+1,1);
+                NextyPos = traject(i+1,2);
+                n = ceil(stepLength(i)*10)+1;
+                points = [linspace(xPos,NextxPos,n+1);linspace(yPos,NextyPos,n+1)];
+                tmp = 0;
                 for j=1:n
                     x = points(1,j);
                     y = points(2,j);
                     currentSolarGain = interp2(obj.X,obj.Y,obj.solarGain,x,y,'spline');
-                    tmp = tmp+currentSolarGain*dx;
+                    tmp = tmp+currentSolarGain;
                 end
-            end
-            VSunGain = tmp .* Vsun;
-            obj.V(2) = VSunGain;
-            V = obj.power+sum(obj.V) +Vdrag
+                tmp = tmp/n;        % The average sun at the path
+                Sun = Sun+ tmp*dt(i);
+            end   
+            % Calculating the V
+            Sun = tmp .* Vsun;  
+            Drag = speed'*speed*Vdrag;
+            Accel = Accel*Vaccel;
+            obj.V(1) = Accel;
+            obj.V(2) = Sun;
+            obj.V(3) = Drag;
+            V = obj.power+sum(obj.V);
+            obj.V
 
         end
-
-        function plot(obj,path)
+        % Some aid functions.
+        function stepLen = stepLength(obj,traject)
+            stepLen = zeros(obj.N-1,1);
+            for i = 1:(obj.N-1)
+                 stepLen(i) = norm(traject(i,1:2) - traject(i+1,1:2));
+            end
+            
+        end
+        function speed = speed(obj,traject)
+            stepLen = zeros(obj.N-1,1);
+            dt = zeros(obj.N-1,1);
+            for i = 1:(obj.N-1)
+                 stepLen(i) = norm(traject(i,1:2) - traject(i+1,1:2));
+                 dt(i) = traject(i+1,3) - traject(i,3);
+            end
+            speed = stepLen./dt;
+        end
+        function dt = timeSteps(obj,traject)
+            dt = zeros(obj.N-1,1);
+            for i = 1:(obj.N-1)
+                 dt(i) = traject(i+1,3) - traject(i,3);
+            end
+        end
+        function accel = acceleration(obj,traject)
+            accel = zeros(obj.N-3,1);
+            stepLength = obj.stepLength(traject);
+            dt = obj.timeSteps(traject);
+            for i = 1:(obj.N-3)
+                %evalute central differences to find the second derivative:
+                accel(i) = (stepLength(i) - 2*stepLength(i+1) + stepLength(i+2))/(dt(i)^2);
+            end
+        end
+        function plot(obj,traject)
             figure()
             surf(obj.X,obj.Y,(obj.solarGain))
             hold on
-            hig = 0.*path(:,1)+3;
-            plot3(path(:,1),path(:,2),hig,'LineWidth', 2,'Color','r');
+            hig = 0.*traject(:,1)+3;
+            plot3(traject(:,1),traject(:,2),hig,'LineWidth', 2,'Color','r');
             view([0,0,90])
         end
         function value = getSun(obj, x, y)
