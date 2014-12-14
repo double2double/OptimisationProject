@@ -4,12 +4,12 @@ startLat = 50;
 endLat = 48;
 startLong = 0;
 endLong = 10;
-m = 30;
+m = 20;
 time = 12;
 date = 180;
 
 
-[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,5,m );
+[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,10,m );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
 plane = Airplane(Vcloud,VwindX,VwindY,X,Y,intensity);
 plane.SetStartPosition(0.1,0.5);
