@@ -1,0 +1,44 @@
+\documentclass[ twoside,openright,titlepage,numbers=noenddot,headinclude,%1headlines,% letterpaper a4paper
+                footinclude=true,cleardoublepage=empty,abstractoff, % <--- obsolete, remove (todo)
+                BCOR=5mm,paper=a4,fontsize=11pt,%11pt,a4paper,%
+                ngerman,american,%
+                ]{scrreprt}
+
+
+%load fonts und useful packages. etc.
+\input{config}
+\begin{document}
+\frenchspacing
+\raggedbottom
+\selectlanguage{american} % american ngerman
+%\renewcommand*{\bibname}{new name}
+%\setbibpreamble{}
+\pagenumbering{roman}
+\pagestyle{plain}
+%create titelpage
+\include{FrontBackmatter/Titlepage}
+%\include{FrontBackmatter/Contents}
+\pagestyle{scrheadings}
+
+
+\pagenumbering{arabic}
+
+\chapter{Motivation and Implementation}
+\section{Introduction}
+In this project we are going to find the optimal path for a solar powered airplane \footnote{Like the one from http://www.solarimpulse.com/}. During the flight of the plane's electrical engines drain power from it's battery. While in flight solar panels on the plane's wings generate electric energy. However clouds may block the sun's rays from reaching the panels. In addition the suns intensity increases when flying closer to the earth's equator. In order to keep as much energy in the planes batteries as possible the flight path has to be optimized.
+
+\section{Problem formulation and Analysis}
+In the optimization process we use randomly generated weather data and sun data corresponding to a flight between $48^\circ$ and $50^\circ$ latitude. 
+
+
+\section{Optimisation Algorithm description}
+
+\chapter{Results}
+\begin{figure}
+\input{images/path1.tex}
+\input{images/path2.tex}
+\caption{Optimized flight paths from the coordinates 0.1,0.5 to 0.9,0.5, with different weather data.}
+\end{figure}
+
+
+\end{document}

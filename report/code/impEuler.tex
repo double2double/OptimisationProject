@@ -1,0 +1,27 @@
+mu = 0.4;
+dX = 1/20;
+dT = mu * dX^2;
+t = 0:dT:0.2;
+x = 0:dX:1;
+U = meshgrid(x,t);
+exSol = zeros(length(t),length(x));
+error = zeros(length(t),length(x));
+%Time boundary conditions.
+U(:,1) = 0;
+U(:,end) = 0;
+%x boundary:
+U(1,:) = sin(pi*x);
+
+%construct the step Matrix:
+stepMat = toeplitz([(1 + 2*mu) -mu, zeros(1,length(x)-4)],...
+             [(1 + 2*mu) -mu, zeros(1,length(x)-4)]);
+
+for n = 1:1:(length(t)-1)
+    %compute the values for the next time step.
+    U(n+1,2:(end-1)) = stepMat\U(n,2:(end-1))'...
+                       + mu*[U(n+1,1); zeros(length(x)-4,1); U(n+1,end)];
+    %Exact solution:
+    exSol(n,:) = exp(-pi^2*t(n))*sin(pi*x);
+    %Error:
+    error(n,:) = abs(U(n,:) -exSol(n,:)); 
+end
