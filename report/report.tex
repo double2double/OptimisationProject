@@ -25,11 +25,11 @@
 
 \chapter{Motivation and Implementation}
 \section{Introduction}
-In this project we are going to find the optimal path for a solar powered airplane \footnote{Like the one from \url{http://www.solarimpulse.com/}}. During flight the plane's electrical engines drain power from it's battery, while at the same time solar panels on the plane's wings convert energy from the sun's rays into electric energy. However clouds may block the sun's rays from reaching the panels. In addition the suns intensity increases when flying closer to the earth's equator. In order to keep as much energy in the planes batteries as possible the flight path has to be optimized.
+In this project we are going to find the optimal path for a solar powered airplane \footnote{Like the one from \url{http://www.solarimpulse.com/}}. During flight the plane's electrical engines drain power from it's battery, while at the same time solar panels on the plane's wings convert energy from the sun's rays into electric energy. However clouds may block the sun's rays from reaching the panels. In addition the sun's intensity increases when flying closer to the equator. In order to keep as much energy in the batteries as possible the flight path has to be optimized.
 
 \section{Problem formulation and Analysis}
 \subsection{Time invariant case}
-In the optimization process we use randomly generated weather data and sun data corresponding to a flight between $48^\circ$ and $50^\circ$ latitude. We generate the weather data by cubicly interpolating a random matrix of size \texttt{n} over a grid. The larger n becomes the more complex the weather will be. This functionality is implemented in \texttt{Static\_Weather.m} \textbf{repo is still private...} \footnote{All matlab code can be found on \url{https://github.com/double2double/OptimisationProject/} in the MATLAB folder.} The class returns a weather data matrix $W$.
+In the optimization process we use randomly generated weather data and sun data corresponding to a flight between $48^\circ$ and $50^\circ$ latitude. We generate the weather data by cubicly interpolating a random matrix of size \texttt{n} over a grid. The larger n becomes the more complex the weather will be. This functionality is implemented in \texttt{Static\_Weather.m} \textbf{repo is still private...} \footnote{All matlab code can be found on \url{TODO: Put public cloned repo link here!}.} The class returns a weather data matrix $W$.
 
 Data for the sun comes from a couple of established equations that relate the local time and position to the sun's intensity  which happens in \texttt{sun.m}. The class returns a sun data Matrix $S$. We define low values in the weather Data Matrix as cloudy and high values as sunny weather. As clouds reduce the electric yield of our plane's solar cells we define the overall intensity as:
 \begin{equation}
@@ -41,7 +41,7 @@ Next we took a closer look at the airplane. Here we consider the degree to which
 \begin{equation} \label{eqn:sunNotime}
 E(x) = \oint_{\Gamma} I  \; dx.
 \end{equation}
-With $dx$ being the length of each step. Having found the additional energy we are able to convert during flight we now look at losses, which are due to drag and acceleration. We define acceleration cost in the time invariant case as the scalar product of the vectors containing local accelerations:
+With $dx$ being the length of each step. Having found the additional energy we are able to convert during flight, we now look at losses, which are due to drag and acceleration. We define acceleration cost in the time invariant case as the scalar product of the vectors containing local accelerations:
 \begin{equation}
 A(\mathbf{x}) = \mathbf{a}^T \cdot \mathbf{a}
 \end{equation}
@@ -56,22 +56,29 @@ Having investigated the approximate battery power lost and gained on a specific 
 \subsection{Time invariant case}
 In the time invariant case we define the optimal path as the path from start to destination where we loose as little battery power as possible. The problem parameter is a path vector $\mathbf{x} \in \mathbb{R}^m$. Which contains $m$ points on the path. Introducing weights for the different power gains and losses we define the cost function:
 \begin{equation}
-V(\mathbf{x}) = - E(\mathbf{x}) +0.01A(\mathbf{x}) + 200D(\mathbf{x}).
+Energy(\mathbf{x}) = E(\mathbf{x}) -0.01A(\mathbf{x}) - 200D(\mathbf{x}).
 \end{equation}
-Which is subjected to the constraint that the path my not leave the weather data grid. This translates into $0 \leq x \leq 1$ and $0 \leq y \leq 1$ for the elements of $\mathbf{x} = (x \; y)^T$. We solved this problem starting with the straight line from (0.1,0.5) to (0.9,0.5) as initial input using matlab's \texttt{fmincon} solver. This const function is implemented in the \texttt{Airplane.m} class file.
+\begin{align}
+       \min_{x,y}( -\text{Energy}(x,y,t)) & \hspace{5mm}  \text{s. t. } \\
+		& x \in [0,1]^m\\
+		& y \in [0,1]^m\\
+		& [x[0],y[0]] = [x_0,y_0] \\
+		& [x[m],y[m]] = [x_m,y_m] \\
+\end{align}
+Where the first constraint is that the path my not leave the weather data grid. And the second one that the path has to start from the place of origin and end at the destination. We solved this problem starting with the straight line from (0.1,0.5) to (0.9,0.5) as initial input using matlab's \texttt{fmincon} solver. This cost function is implemented in the \texttt{Airplane.m} class file.
 
 
-\section{Time varying Air plane}
+\section{Time varying case}
 
 In the previous section we performed an elaborate explanation of the a first model of the air plane.
 This model did not include time  and it was assumed that the air plane flew with a constant speed.
 This however is not realistic, we want to stay longer in sunny regions and fly fast trough cloudy ones.
 To compensate for this need it is a good idea to include the time as an input parameter as well.
-This new freedom will introduce a new dimension and thus make the optimisation problem more complex.
+This new freedom will introduce a new dimension and thus make the optimization problem more complex.
 
 \subsection{Formulation of the problem}
 
-Lets start by reformulating the optimisation problem in a formal way.
+Lets start by reformulating the optimization problem in a formal way.
 
 \begin{align}
        \min_{x,y,t }( -\text{Energy}(x,y,t)) & \hspace{5mm}  \text{s. t. } \\
@@ -82,13 +89,13 @@ Lets start by reformulating the optimisation problem in a formal way.
 		& t_0 = 0\\
 		& t(i) \leq t(i+1)| \forall i \in \left\{1,2 \dots m\right\}
 \end{align}
-The conditions for the spacial coordinates have stayed the same, the plane has to stay in a curtain region.
-By introducing time dependency we have to make sure that the time is increasing throughout the flight, without this constrain the solution would be nonsense.
+The conditions for the spacial coordinates have stayed the same, the plane has to stay in a certain region.
+By introducing time dependency we have to make sure that the time is increasing throughout the flight, without this constraint the solution would be nonsense.
 
 Lets now look at how the introduction of time changes the Energy function, we are still taking in to account the same quantities as in the previous model; the positive acceleration energy, the air resistance and the solar gain.
 The only  thing that really changed is the way the speed of the air plane is defined.
 In the previous model we assumed that each step taken by the plane took an equal time step regardless of the length of this step, this has changed in the time varying model, the time step is now a parameter that could be chosen optimal.
-In a more mathematical formulation wo took the speed to be defined as
+In a more mathematical formulation we took the speed to be defined as
 \begin{equation}
 v[i] = \dfrac{l[i+1]-l[i]}{t[i+1]-t[i]}
 \end{equation}
@@ -110,10 +117,10 @@ The rest of the analysis stayed the same.
 A lot of assumptions has been made throughout the model.
 Most of these are oversimplifications of the real world and we barley scratched the surface of the real optimisation problem behind the airplane.
 Things we did not include in the model are for example a minimum speed and a maximum speed for the airplane.
-We only calculated the residual energy in at the end of the flight but was the energy of the airplane at all time a positive value or did we use energy we did not have available?
+We only calculated the residual energy at the end of the flight, but was the energy of the airplane at all times a positive value or did we use energy we did not have available?
 Can we make the weather more realistic and make it time varying as well? If we did so than $ t[0] =0 $ was no longer a condition and we could start finding the ideal time of departure.
 
-These are just a few possible modification that could make the model more realistic and more usable.
+These are just a few possible modifications that could make the model more realistic and more usable.
 
 
 
@@ -124,10 +131,11 @@ These are just a few possible modification that could make the model more realis
 \section{Time invariant case}
 \begin{figure}
 \input{images/path1.tex}
-\caption{Optimized flight path from the coordinates 0.1,0.5 to 0.9,0.5, with different weather data.}
-\label{fig:path1}
+\input{images/path3.tex}
+\caption{Optimized flight path from the coordinates 0.1,0.5 to 0.9,0.5, in the time invariant (top) and the time variant (bottom) case.}
+\label{fig:path}
 \end{figure}
-The optimized path (shown in red) for the time invariant case is shown in figure~\ref{fig:path1}. We observe that the path leads nicely trough sunny weather grids including a detour to the sunniest spot on the grid at (0.5,0.35), indicating that our problem is well formulated.
+The optimized path (shown in red) for the time invariant case is shown in figure~\ref{fig:path}. We observe that the path leads nicely trough sunny weather grids including a detour to the sunniest spot on the grid at (0.5,0.35), indicating that our problem is well formulated. The optimized solution for the time variant case is shown in the bottom of figure~\ref{fig:path}. Now the path stays longer in the sunny area in the middle and the plane does not take the detour to the center. However some not optimal seeming detours appear. It is important hoever to keep in mind, that this problem is not convex... 
 
 
 
