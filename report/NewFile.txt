@@ -28,9 +28,7 @@
 In this project we are going to find the optimal path for a solar powered airplane \footnote{Like the one from \url{http://www.solarimpulse.com/}}. During flight the plane's electrical engines drain power from it's battery, while at the same time solar panels on the plane's wings convert energy from the sun's rays into electric energy. However clouds may block the sun's rays from reaching the panels. In addition the suns intensity increases when flying closer to the earth's equator. In order to keep as much energy in the planes batteries as possible the flight path has to be optimized.
 
 \section{Problem formulation and Analysis}
-\subsection{Time invariant case}
-In the optimization process we use randomly generated weather data and sun data corresponding to a flight between $48^\circ$ and $50^\circ$ latitude. We generate the weather data by cubicly interpolating a random matrix of size \texttt{n} over a grid. The larger n becomes the more complex the weather will be. This functionality is implemented in \texttt{Static\_Weather.m} \textbf{repo is still private...} \footnote{All matlab code can be found on \url{https://github.com/double2double/OptimisationProject/} in the MATLAB folder.} The class returns a weather data matrix $W$.
-
+In the optimization process we use randomly generated weather data and sun data corresponding to a flight between $48^\circ$ and $50^\circ$ latitude. We generate the weather data by cubicly interpolating a random matrix of size \texttt{n} over a grid. The larger n becomes the more complex the weather will be. This functionality is implemented in \texttt{Static\_Weather.m} \textbf{repo is still private...}\footnote{All matlab code can be found on \url{https://github.com/double2double/OptimisationProject/} in the MATLAB folder.} The class returns a weather data matrix $W$.
 Data for the sun comes from a couple of established equations that relate the local time and position to the sun's intensity  which happens in \texttt{sun.m}. The class returns a sun data Matrix $S$. We define low values in the weather Data Matrix as cloudy and high values as sunny weather. As clouds reduce the electric yield of our plane's solar cells we define the overall intensity as:
 \begin{equation}
 $I$ \:= \: $W$ .* $S$
@@ -39,36 +37,19 @@ While following a convention where $.*$ denotes element wise multiplication we e
 
 Next we took a closer look at the airplane. Here we consider the degree to which the plane can recharge its battery during flight, which is the path integral over the intensity data:
 \begin{equation}
-E(x) = \oint_{\Gamma} I  \; dx.
-\end{equation}
-With $dx$ being the length of each step. Having found the additional energy we are able to convert during flight we now look at losses, which are due to drag and acceleration. We define acceleration cost in the time invariant case as the scalar product of the vectors containing local accelerations:
-\begin{equation}
-A(\mathbf{x}) = \mathbf{a}^T \cdot \mathbf{a}
-\end{equation}
-\marginpar{To calculate the derivatives in the time invariant case we approximate $dt$ as the total time over distance traveled.} However we only count cases where the acceleration is positive since deceleration does not drain battery power.
-Finally we consider the drag force which the plain experiences on its path, which we approximate as the dot product of the local speed vector:
-\begin{equation}
-D(\mathbf{x}) = \mathbf{s}^T \cdot \mathbf{s}
-\end{equation}
-Having investigated the approximate battery power lost and gained on a specific path, we can now proceed to formulating a cost function for the time invariant case.
+\oint_{path}
+\end{equation} 
 
-\section{Cost function formulation}
-\subsection{Time invariant case}
-In the time invariant case we define the optimal path as the path from start to destination where we loose as little battery power as possible. The problem parameter is a path vector $\mathbf{x} \in \mathbb{R}^m$. Which contains $m$ points on the path. Introducing weights for the different power gains and losses we define the cost function:
-\begin{equation}
-V(\mathbf{x}) = - E(\mathbf{x}) +0.01A(\mathbf{x}) + 200D(\mathbf{x}).
-\end{equation}
-Which is subjected to the constraint that the path my not leave the weather data grid. This translates into $0 \leq x \leq 1$ and $0 \leq y \leq 1$ for the elements of $\mathbf{x} = (x \; y)^T$. We solved this problem starting with the straight line from (0.1,0.5) to (0.9,0.5) as initial input using matlab's \texttt{fmincon} solver. This const function is implemented in the \texttt{Airplane.m} class file.
 
+\section{Optimisation Algorithm description}
 
 \chapter{Results}
-\section{Time invariant case}
 \begin{figure}
 \input{images/path1.tex}
-\caption{Optimized flight path from the coordinates 0.1,0.5 to 0.9,0.5, with different weather data.}
-\label{fig:path1}
+\input{images/path2.tex}
+\caption{Optimized flight paths from the coordinates 0.1,0.5 to 0.9,0.5, with different weather data.}
 \end{figure}
-The optimized path (shown in red) for the time invariant case is shown in figure~\ref{fig:path1}. We observe that the path leads nicely trough sunny weather grids including a detour to the sunniest spot on the grid at (0.5,0.35), indicating that our problem is well formulated.
+
 
 
 
