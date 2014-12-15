@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.11.18)  15 DEC 2014 13:54
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.11.18)  15 DEC 2014 15:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1565,7 +1565,11 @@ Package: scrtime 2012/07/29 v3.11b KOMA-Script package (time of LaTeX run)
 Package: prelim2e 2009/05/29 v1.3 prelim2e Package (MS)
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/carlisle/remreset.sty)))
-(./report.aux (./FrontBackmatter/Titlepage.aux))
+(./report.aux (./FrontBackmatter/Titlepage.aux)
+
+LaTeX Warning: Label `eqn:sunNotime' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
@@ -1582,8 +1586,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
 LaTeX Font Info:    ... okay on input line 10.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 10.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 10.
-
-(/usr/local/texlive/2013/texmf-dist/tex/latex/base/ts1cmr.fd
+ (/usr/local/texlive/2013/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 10.
@@ -1687,7 +1690,7 @@ File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 
 Package xcolor Warning: Incompatible color definition on input line 15.
 
-<FrontBackmatter/logo_kuleuven.png, id=47, 160.6pt x 53.19875pt>
+<FrontBackmatter/logo_kuleuven.png, id=51, 160.6pt x 53.19875pt>
 File: FrontBackmatter/logo_kuleuven.png Graphic file (type png)
 
 <use FrontBackmatter/logo_kuleuven.png>
@@ -1770,23 +1773,39 @@ LaTeX Font Info:    Try loading font information for U+fplmbb on input line 57.
  (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ufplmbb.fd
 File: ufplmbb.fd 2003/10/30 Fontinst v1.914 font definitions for U/fplmbb.
 ) [2]
+
+Package xcolor Warning: Incompatible color definition on input line 98.
+
+[3]
+Overfull \hbox (0.98569pt too wide) in paragraph at lines 110--115
+\T1/pplj/m/n/10.95 these are over-sim-pli-fi-ca-tions of the real world and we 
+bar-ley scratched
+ []
+
+
+Overfull \hbox (8.75385pt too wide) in paragraph at lines 110--115
+\T1/pplj/m/n/10.95 the sur-face of the real op-ti-mi-sa-tion prob-lem be-hind t
+he air-plane. Things
+ []
+
+[4]
 Chapter 2.
 (./images/path1.tex)
-Overfull \hbox (21.55116pt too wide) in paragraph at lines 986--68
+Overfull \hbox (21.55116pt too wide) in paragraph at lines 986--127
 [][] 
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 71.
+Package xcolor Warning: Incompatible color definition on input line 130.
 
-[3
+[5
 
 
-] [4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 114.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 114.
+] [6]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 140.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 140.
  (./report.aux (./FrontBackmatter/Titlepage.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 114.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 140.
 
 
  *File List*
@@ -1973,19 +1992,22 @@ FrontBackmatter/logo_kuleuven.png
 images/path1.tex
  ***********
 
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 114.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 140.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: A92983ADAF445B8D7B5ACF797A198C30;710.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 114.
+(rerunfilecheck)             Checksum: B1A4A214CD253107BAA238BE8F87B574;800.
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 140.
  ) 
 Here is how much of TeX's memory you used:
- 32601 strings out of 493315
- 729559 string characters out of 6137903
- 1751740 words of memory out of 5000000
- 35232 multiletter control sequences out of 15000+600000
+ 32611 strings out of 493315
+ 729692 string characters out of 6137903
+ 1747374 words of memory out of 5000000
+ 35238 multiletter control sequences out of 15000+600000
  93562 words of font info for 136 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 68i,13n,122p,48779b,2106s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,14n,122p,48779b,2106s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
 xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texl
@@ -2002,10 +2024,10 @@ texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2
 013/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2013/tex
 mf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2013/texmf-dist
 /fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on report.pdf (5 pages, 151932 bytes).
+Output written on report.pdf (7 pages, 155389 bytes).
 PDF statistics:
- 160 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
- 30 named destinations out of 1000 (max. 500000)
- 19554 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 177 PDF objects out of 1000 (max. 8388607)
+ 149 compressed objects within 2 object streams
+ 34 named destinations out of 1000 (max. 500000)
+ 19562 words of extra memory for PDF output out of 20736 (max. 10000000)
 

@@ -38,7 +38,7 @@ $I$ \:= \: $W$ .* $S$
 While following a convention where $.*$ denotes element wise multiplication we end up with an intensity matrix $I$, which contains sun intensity data weighted according to the random weather.
 
 Next we took a closer look at the airplane. Here we consider the degree to which the plane can recharge its battery during flight, which is the path integral over the intensity data:
-\begin{equation}
+\begin{equation} \label{eqn:sunNotime}
 E(x) = \oint_{\Gamma} I  \; dx.
 \end{equation}
 With $dx$ being the length of each step. Having found the additional energy we are able to convert during flight we now look at losses, which are due to drag and acceleration. We define acceleration cost in the time invariant case as the scalar product of the vectors containing local accelerations:
@@ -59,18 +59,6 @@ In the time invariant case we define the optimal path as the path from start to 
 V(\mathbf{x}) = - E(\mathbf{x}) +0.01A(\mathbf{x}) + 200D(\mathbf{x}).
 \end{equation}
 Which is subjected to the constraint that the path my not leave the weather data grid. This translates into $0 \leq x \leq 1$ and $0 \leq y \leq 1$ for the elements of $\mathbf{x} = (x \; y)^T$. We solved this problem starting with the straight line from (0.1,0.5) to (0.9,0.5) as initial input using matlab's \texttt{fmincon} solver. This const function is implemented in the \texttt{Airplane.m} class file.
-
-
-\chapter{Results}
-\section{Time invariant case}
-\begin{figure}
-\input{images/path1.tex}
-\caption{Optimized flight path from the coordinates 0.1,0.5 to 0.9,0.5, with different weather data.}
-\label{fig:path1}
-\end{figure}
-The optimized path (shown in red) for the time invariant case is shown in figure~\ref{fig:path1}. We observe that the path leads nicely trough sunny weather grids including a detour to the sunniest spot on the grid at (0.5,0.35), indicating that our problem is well formulated.
-
-
 
 
 \section{Time varying Air plane}
@@ -102,9 +90,47 @@ The only  thing that really changed is the way the speed of the air plane is def
 In the previous model we assumed that each step taken by the plane took an equal time step regardless of the length of this step, this has changed in the time varying model, the time step is now a parameter that could be chosen optimal.
 In a more mathematical formulation wo took the speed to be defined as
 \begin{equation}
-v[i] = \dfrac{l[i+1]-v[i]}{l[i+1]-t[i]},
+v[i] = \dfrac{l[i+1]-l[i]}{t[i+1]-t[i]}
 \end{equation}
-in this formulation is $ l $ the step path length 
+in this formulation is $ l[i] $ the path length  from the beginning till the $i$-th point.
+
+When this speed is used instead of the speed as defined in the above section most of the calculations stayed the same, except for the calculation of the total energy yield from the sun.
+For the time independent model this calculations was done using Equation \ref{eqn:sunNotime}.
+In this calculation we assumed that the velocity of the plane  constant was so that $ dx/ dt = v $.
+This however is no longer true and the integration variable has to be adapted for it, so we get
+\begin{equation} \label{eqn:sunNotime}
+E(t) = \oint_{\Gamma} I  \; dt.
+\end{equation}
+
+The rest of the analysis stayed the same.
+
+
+\subsection{Further expansion of the model}
+
+A lot of assumptions has been made throughout the model.
+Most of these are oversimplifications of the real world and we barley scratched the surface of the real optimisation problem behind the airplane.
+Things we did not include in the model are for example a minimum speed and a maximum speed for the airplane.
+We only calculated the residual energy in at the end of the flight but was the energy of the airplane at all time a positive value or did we use energy we did not have available?
+Can we make the weather more realistic and make it time varying as well? If we did so than $ t[0] =0 $ was no longer a condition and we could start finding the ideal time of departure.
+
+These are just a few possible modification that could make the model more realistic and more usable.
+
+
+
+
+
+
+\chapter{Results}
+\section{Time invariant case}
+\begin{figure}
+\input{images/path1.tex}
+\caption{Optimized flight path from the coordinates 0.1,0.5 to 0.9,0.5, with different weather data.}
+\label{fig:path1}
+\end{figure}
+The optimized path (shown in red) for the time invariant case is shown in figure~\ref{fig:path1}. We observe that the path leads nicely trough sunny weather grids including a detour to the sunniest spot on the grid at (0.5,0.35), indicating that our problem is well formulated.
+
+
+
 
 
 
