@@ -131,12 +131,11 @@ These are just a few possible modifications that could make the model more reali
 \section{Time invariant case}
 \begin{figure}
 \input{images/path1.tex}
-\input{images/path2.tex}
-\caption{Optimized flight path from the coordinates 0.1,0.5 to 0.9,0.5, with different weather data.}
-\label{fig:path1}
-
+\input{images/path3.tex}
+\caption{Optimized flight path from the coordinates 0.1,0.5 to 0.9,0.5, in the time invariant (top) and the time variant (bottom) case.}
+\label{fig:path}
 \end{figure}
-The optimized path (shown in red) for the time invariant case is shown in figure~\ref{fig:path1}. We observe that the path leads nicely trough sunny weather grids including a detour to the sunniest spot on the grid at (0.5,0.35), indicating that our problem is well formulated.
+The optimized path (shown in red) for the time invariant case is shown in figure~\ref{fig:path}. We observe that the path leads nicely trough sunny weather grids including a detour to the sunniest spot on the grid at (0.5,0.35), indicating that our problem is well formulated. The optimized solution for the time variant case is shown in the bottom of figure~\ref{fig:path}. Now the path stays longer in the sunny area in the middle and the plane does not take the detour to the center. However some not optimal seeming detours appear. It is important hoever to keep in mind, that this problem is not convex... 
 
 
 
