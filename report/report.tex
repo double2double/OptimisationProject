@@ -1,39 +1,71 @@
-\documentclass[ twoside,openright,titlepage,numbers=noenddot,headinclude,%1headlines,% letterpaper a4paper
-                footinclude=true,cleardoublepage=empty,abstractoff, % <--- obsolete, remove (todo)
-                BCOR=5mm,paper=a4,fontsize=11pt,%11pt,a4paper,%
-                ngerman,american,%
-                ]{scrreprt}
 
 
-%load fonts und useful packages. etc.
-\input{config}
+
+
+\documentclass[10pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{titlesec}
+\usepackage[left=2cm,right=2cm,top=1.2cm,bottom=2cm]{geometry}
+\usepackage{hyperref}
+\usepackage{multicol}
+\title{Lagrangian coherent structures}
+\author{Bob Vergauwen}
+
+\newenvironment{kop}
+{\begin{large} \par\bfseries  }
+{ \par \vspace{-3mm}\begin{center} \line(1,0){400} \vspace{-2mm} \end{center}
+\end{large}}
+
+\newenvironment{buik}
+{\begin{multicols}{3}}
+{\end{multicols}}
+
+
+\renewcommand{\section}[1]{%
+    \par\vspace{.3cm}\noindent\textbf{\textsc{#1}}%
+    \par\noindent\ignorespaces%
+}
+\renewcommand{\subsection}[1]{%
+    \par\vspace{.3cm}\noindent\textsc{#1}%
+    \par\noindent\ignorespaces%
+}
+
+
+
 \begin{document}
-\frenchspacing
-\raggedbottom
-\selectlanguage{american} % american ngerman
-%\renewcommand*{\bibname}{new name}
-%\setbibpreamble{}
-\pagenumbering{roman}
-\pagestyle{plain}
-%create titelpage
-\include{FrontBackmatter/Titlepage}
-%\include{FrontBackmatter/Contents}
-\pagestyle{scrheadings}
+\begin{center}
+\begin{huge}
+Lagrangian coherent structures
+\end{huge}\vspace{2mm} \\
+\begin{Large}
+The hidden skeleton of fluids
+\end{Large}\vspace{2mm} \\
+\begin{large}
+Bob Vergauwen
+\end{large}
+\end{center}
+\vspace{5mm}
+\pagestyle{empty}
 
-
-\pagenumbering{arabic}
-
-\chapter{Motivation and Implementation}
-\section{Introduction}
+\begin{kop}
 In this project we are going to find the optimal path for a solar powered airplane \footnote{Like the one from \url{http://www.solarimpulse.com/}}. During flight the plane's electrical engines drain power from it's battery, while at the same time solar panels on the plane's wings convert energy from the sun's rays into electric energy. However clouds may block the sun's rays from reaching the panels. In addition the suns intensity increases when flying closer to the earth's equator. In order to keep as much energy in the planes batteries as possible the flight path has to be optimized.
 
+
+\end{kop}
+
+\begin{buik}
 \section{Problem formulation and Analysis}
 \subsection{Time invariant case}
 In the optimization process we use randomly generated weather data and sun data corresponding to a flight between $48^\circ$ and $50^\circ$ latitude. We generate the weather data by cubicly interpolating a random matrix of size \texttt{n} over a grid. The larger n becomes the more complex the weather will be. This functionality is implemented in \texttt{Static\_Weather.m} \textbf{repo is still private...} \footnote{All matlab code can be found on \url{https://github.com/double2double/OptimisationProject/} in the MATLAB folder.} The class returns a weather data matrix $W$.
 
 Data for the sun comes from a couple of established equations that relate the local time and position to the sun's intensity  which happens in \texttt{sun.m}. The class returns a sun data Matrix $S$. We define low values in the weather Data Matrix as cloudy and high values as sunny weather. As clouds reduce the electric yield of our plane's solar cells we define the overall intensity as:
 \begin{equation}
-$I$ \:= \: $W$ .* $S$
+I:= WS
 \end{equation}
 While following a convention where $.*$ denotes element wise multiplication we end up with an intensity matrix $I$, which contains sun intensity data weighted according to the random weather.
 
@@ -59,15 +91,18 @@ In the time invariant case we define the optimal path as the path from start to 
 V(\mathbf{x}) = - E(\mathbf{x}) +0.01A(\mathbf{x}) + 200D(\mathbf{x}).
 \end{equation}
 Which is subjected to the constraint that the path my not leave the weather data grid. This translates into $0 \leq x \leq 1$ and $0 \leq y \leq 1$ for the elements of $\mathbf{x} = (x \; y)^T$. We solved this problem starting with the straight line from (0.1,0.5) to (0.9,0.5) as initial input using matlab's \texttt{fmincon} solver. This const function is implemented in the \texttt{Airplane.m} class file.
+\end{buik}
 
+\section{Results}
 
-\chapter{Results}
+\begin{buik}
+
 \section{Time invariant case}
-\begin{figure}
-\input{images/path1.tex}
-\caption{Optimized flight path from the coordinates 0.1,0.5 to 0.9,0.5, with different weather data.}
-\label{fig:path1}
-\end{figure}
+%\begin{figure}
+%\input{images/path1.tex}
+%\caption{Optimized flight path from the coordinates 0.1,0.5 to 0.9,0.5, with different weather data.}
+%\label{fig:path1}
+%\end{figure}
 The optimized path (shown in red) for the time invariant case is shown in figure~\ref{fig:path1}. We observe that the path leads nicely trough sunny weather grids including a detour to the sunniest spot on the grid at (0.5,0.35), indicating that our problem is well formulated.
 
 
@@ -84,16 +119,9 @@ This new freedom will introduce a new dimension and thus make the optimisation p
 \subsection{Formulation of the problem}
 
 Lets start by reformulating the optimisation problem in a formal way.
-
-\begin{align}
-       \min_{x,y,t }( -\text{Energy}(x,y,t)) & \hspace{5mm}  \text{s. t. } \\
-		& x \in [0,1]^m\\
-		& y \in [0,1]^m\\
-		& [x[0],y[0]] = [x_0,y_0] \\
-		& [x[m],y[m]] = [x_m,y_m] \\
-		& t_0 = 0\\
-		& t(i) \leq t(i+1)| \forall i \in \left\{1,2 \dots m\right\}
-\end{align}
+\begin{equation}
+       \min_{x,y,t }( -\text{Energy}(x,y,t))
+\end{equation}
 The conditions for the spacial coordinates have stayed the same, the plane has to stay in a curtain region.
 By introducing time dependency we have to make sure that the time is increasing throughout the flight, without this constrain the solution would be nonsense.
 
@@ -108,7 +136,7 @@ in this formulation is $ l $ the step path length
 
 
 
-
+\end{buik}
 
 
 \end{document}
