@@ -1,14 +1,14 @@
 
 # Compiled source #
 ######################
-build/*.aux
-build/*.idx
-build/*.log
-build/*.out
-build/*.pdf
-build/*.synctex.gz
-build/*.toc
-presentation/build/oral_presentation.pdf
+report/*.aux
+report/*.idx
+report/*.log
+report/*.out
+report/*.pdf
+report/*.synctex.gz
+report/*.toc
+presentation/report/oral_presentation.pdf
 
 Bob/eclipseProject/.metadata/
 Bob/eclipseProject/NumericalDiffODE1/.settings

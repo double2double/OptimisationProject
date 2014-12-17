@@ -28,6 +28,18 @@
 In this project we are going to find the optimal path for a solar powered airplane \footnote{Like the one from \url{http://www.solarimpulse.com/}}. During flight the plane's electrical engines drain power from it's battery, while at the same time solar panels on the plane's wings convert energy from the sun's rays into electric energy. However clouds may block the sun's rays from reaching the panels. In addition the sun's intensity increases when flying closer to the equator. In order to keep as much energy in the batteries as possible the flight path has to be optimized.
 
 \section{Problem formulation and Analysis}
+
+In this project two different models have been used, a time independent one and time depended model.
+The big difference between the two models is the dimension of the parameter input space.
+In the time invariant model this space consists of a $2 \times m $ matrix, this vector stands for the $ X $ and $ Y $ coordinates of the plane throughout the flight.
+The time for one step is set to be constant.
+This means that when the step size taken by the plane increases the velocity of the plane goes up as well.
+
+To expand upon this model we introduced a third column vector as an input, a time vector.
+This vector holds all of the time values associated with each step of the plane.
+In this way can the path length be varied for each step without the need to accelerate.  
+
+
 \subsection{Time invariant case}
 In the optimization process we use randomly generated weather data and sun data corresponding to a flight between $48^\circ$ and $50^\circ$ latitude. We generate the weather data by cubicly interpolating a random matrix of size \texttt{n} over a grid. The larger n becomes the more complex the weather will be. This functionality is implemented in \texttt{Static\_Weather.m} \textbf{repo is still private...} \footnote{All matlab code can be found on \url{TODO: Put public cloned repo link here!}.} The class returns a weather data matrix $W$.
 
@@ -131,7 +143,7 @@ These are just a few possible modifications that could make the model more reali
 \section{Time invariant case}
 \begin{figure}
 \input{images/path1.tex}
-\input{images/path3.tex}
+%\input{images/path3.tex}
 \caption{Optimized flight path from the coordinates 0.1,0.5 to 0.9,0.5, in the time invariant (top) and the time variant (bottom) case.}
 \label{fig:path}
 \end{figure}
