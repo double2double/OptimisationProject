@@ -22,10 +22,12 @@ classdef Airplane < handle
         solarWeight = 1;
         posWeight = 1;
         accelerationWeight = 100;
+        Vend = Inf;
+        bestPath = [];
     end
     methods
         function obj = Airplane(clouds,windX,windY,X,Y,sun)
-            obj.solarGain = clouds .* sun;
+            obj.solarGain = clouds.*sun ;
             obj.windX = windX;
             obj.windY = windY;
             obj.X = X;
@@ -43,25 +45,40 @@ classdef Airplane < handle
         function [ V ] = weatherSpeedCost(obj, traject )
             % Debug cost function to check whats done so far.
             % setting up some parameters
-            Vaccel = 1/200;
-            Vsun = -500;
-            Vdrag = 20;
+            Vaccel = 0.01;
+            Vsun = -3;
+            Vdrag = 100;
             % Calculating the traject lenght.
             stepLength = obj.stepLength(traject);
-            dt = obj.timeSteps(traject);
+            dt = traject(1:end-1,3);
             speed = stepLength./dt;
-            acceleration = zeros(obj.N-3,1);
-            % Calculating the acceleration
-            for i = 1:(obj.N-3)
-                %evalute central differences to find the second derivative:
-                acceleration(i) = (stepLength(i) - 2*stepLength(i+1) + stepLength(i+2))/(dt(i)^2);
-            end
             
+            % Calculating the acceleration cost
+            acceleration = obj.acceleration(traject);
             posAcceleration = acceleration((acceleration > 0));
             Accel = posAcceleration'*posAcceleration;
             
             %Weather cost.
+            Sun = obj.WeaterCost(traject);
+            % Calculating the V
+            Sun = Sun .* Vsun;  
+            Drag = speed'*speed*Vdrag;
+            Accel = Accel*Vaccel;
+            obj.V(1) = Accel;
+            obj.V(2) = Sun;
+            obj.V(3) = Drag;
+            V = obj.power+sum(obj.V);
+            if (V<obj.Vend)
+                obj.bestPath = traject;
+            end
+            obj.V
+
+        end
+        % Some aid functions.
+        function weather = WeaterCost(obj,traject)
             Sun = 0;
+            dt = traject(1:end-1,3);
+            stepLength = obj.stepLength(traject);
             for i = 1:1:(obj.N-1)
                 %Get the position.
                 xPos = traject(i,1);
@@ -79,19 +96,11 @@ classdef Airplane < handle
                 end
                 tmp = tmp/n;        % The average sun at the path
                 Sun = Sun+ tmp*dt(i);
-            end   
-            % Calculating the V
-            Sun = tmp .* Vsun;  
-            Drag = speed'*speed*Vdrag;
-            Accel = Accel*Vaccel;
-            obj.V(1) = Accel;
-            obj.V(2) = Sun;
-            obj.V(3) = Drag;
-            V = obj.power+sum(obj.V);
-            obj.V
-
+            end 
+            weather = Sun;
         end
-        % Some aid functions.
+        
+        
         function stepLen = stepLength(obj,traject)
             stepLen = zeros(obj.N-1,1);
             for i = 1:(obj.N-1)
@@ -100,24 +109,14 @@ classdef Airplane < handle
             
         end
         function speed = speed(obj,traject)
-            stepLen = zeros(obj.N-1,1);
-            dt = zeros(obj.N-1,1);
-            for i = 1:(obj.N-1)
-                 stepLen(i) = norm(traject(i,1:2) - traject(i+1,1:2));
-                 dt(i) = traject(i+1,3) - traject(i,3);
-            end
+            dt = traject(1:end-1,3);
+            stepLen = obj.stepLength(traject);
             speed = stepLen./dt;
-        end
-        function dt = timeSteps(obj,traject)
-            dt = zeros(obj.N-1,1);
-            for i = 1:(obj.N-1)
-                 dt(i) = traject(i+1,3) - traject(i,3);
-            end
         end
         function accel = acceleration(obj,traject)
             accel = zeros(obj.N-3,1);
             stepLength = obj.stepLength(traject);
-            dt = obj.timeSteps(traject);
+            dt = traject(1:end-1,3);
             for i = 1:(obj.N-3)
                 %evalute central differences to find the second derivative:
                 accel(i) = (stepLength(i) - 2*stepLength(i+1) + stepLength(i+2))/(dt(i)^2);
