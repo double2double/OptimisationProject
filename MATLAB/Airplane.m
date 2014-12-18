@@ -93,6 +93,9 @@ classdef Airplane < handle
 
         function plot(obj,path)
             figure()
+            contourf(obj.X,obj.Y,(obj.solarGain),7)
+            colorbar('southoutside')
+            figure()
             surf(obj.X,obj.Y,(obj.solarGain))
             hold on
             hig = 0.*path(:,1)+3;

@@ -1,21 +1,15 @@
 
 # Compiled source #
 ######################
-report/*.aux
-report/*.idx
-report/*.log
-report/*.out
-report/*.pdf
-report/*.synctex.gz
-report/*.toc
-
-report2/*.aux
-report2/*.idx
-report2/*.log
-report2/*.out
-report2/*.pdf
-report2/*.synctex.gz
-report2/*.toc
+build/Bachelor_proef.aux
+build/Bachelor_proef.idx
+build/Bachelor_proef.log
+build/Bachelor_proef.aux 
+build/Bachelor_proef.out
+build/Bachelor_proef.pdf
+build/Bachelor_proef.synctex.gz
+build/Bachelor_proef.toc
+presentation/build/oral_presentation.pdf
 
 
 # Packages #
@@ -46,7 +40,8 @@ report2/*.toc
 .Trashes
 ehthumbs.db
 Thumbs.db
-=======
+# Compiling rubish #
+####################
 *~
 *.aux
 *.dvi
@@ -65,6 +60,5 @@ Thumbs.db
 *.ilg
 *.ind
 *.snm
-
-
-
+.metadata
+octave-core
