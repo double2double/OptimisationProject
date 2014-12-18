@@ -10,8 +10,8 @@ time = 12;
 date = 180;
 
 
-[ Vcloud,~,~,X,Y ] = Static_Weather( 2,4,m );
-[ ~,VwindX,VwindY,Xw,Yw ] = Static_Weather( 2,4,20 );
+[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,4,m );
+%[ ~,VwindX,VwindY,Xw,Yw ] = Static_Weather( 2,4,20 );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
 plane = Airplane(Vcloud,VwindX,VwindY,X,Y,intensity);
 plane.SetStartPosition(0.1,0.5);
@@ -53,7 +53,7 @@ ub(:,3) = 2;
 %%
 % Reminder: path is handled as a vector for the inequality constrains.
 
-%[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
+[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
 
 %plane.plotFancy(opt);
 

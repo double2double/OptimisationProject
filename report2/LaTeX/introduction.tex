@@ -68,7 +68,22 @@ the same conventions for the integral apply as noted above.
 
 \subsubsection{Acceleration force}
 
-The acceleration force is the last parameter that we looked at.
+The energy needed to accelerate the airplane is the last parameter we looked at.
+We did assume there was now energy needed to decelerate the plane.
+For the acceleration energy we used
+\begin{equation}
+E_{accel}(t)  =  \alpha_{accel} \oint_{path} s(x,y).^2  d \tau.S
+\end{equation}
+In this function $ s(x,y) $ is defined as
+\begin{equation}
+s(x,y) = 
+\begin{cases}
+   a(x,y) & \text{if } a(x,y) \geq 0 \\
+   0       & \text{if } a(x,y) < 0
+  \end{cases}
+\end{equation}
+The function $ a(x,y) $ is the acceleration.
+The point of integrating the function $ s(x,y) $ is just to get rid of the contribution of the negative acceleration.
 
 
 
