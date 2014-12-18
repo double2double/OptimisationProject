@@ -28,8 +28,8 @@ classdef Airplane < handle
     methods
         function obj = Airplane(clouds,windX,windY,X,Y,sun)
             obj.solarGain = clouds.*sun ;
-            obj.windX = 0.01*windX;
-            obj.windY = 0.01*windY;
+            obj.windX = 0.04*windX;
+            obj.windY = 0.04*windY;
             obj.X = X;
             obj.Y = Y;
             [obj.N,~] = size(X);
@@ -47,8 +47,8 @@ classdef Airplane < handle
             V = -energy(end)
         end
         function Energy = getEnergy(obj,traject)
-            Vaccel = -0.01;
-            Vsun = 3;
+            Vaccel = -0.03;
+            Vsun = 1;
             Vdrag = -100;
             % Calculating the relative speed
             speed = obj.relativespeed(traject);
@@ -168,7 +168,7 @@ classdef Airplane < handle
             % Plotting the solar gain
             sunCost = obj.sunCost(traject);
             x = linspace(0,1,obj.N-1);
-            plot(x,sunCost);
+            plot(x,-sunCost);
             ylabel('Sun gain')
             box on
             subplot(2,3,4);
@@ -195,7 +195,6 @@ classdef Airplane < handle
                 de(i) = (energy(i+1)-energy(i))/(x(i+1)-x(i));
             end
             x = linspace(0,1,obj.N-1);
-            de
             plot(x,de);
             ylabel('Enegy per step')
             box on

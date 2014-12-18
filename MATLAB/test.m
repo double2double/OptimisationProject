@@ -19,12 +19,12 @@ plane.SetEndPosition(0.9,0.5);
 % Create an initial guess for the path. 
 x = linspace(0.1,0.9,m);
 t = ones(1,m);
-y = sin(pi*x)+ 0.5;
+y = sin(pi*x).*0+ 0.5;
 
 path = [x;y;t]';
 
 % Uncomment this to get a good path for seed 2,4,30 == verry nice result
-%load('opt')
+load('opt')
 %path = opt;
 
 % Creating the inequality matrix for the time monoticity.
@@ -52,7 +52,7 @@ ub(:,3) = 2;
 %%
 % Reminder: path is handled as a vector for the inequality constrains.
 
-[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
+%[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
 
 plane.plotFancy(opt);
 hold off
