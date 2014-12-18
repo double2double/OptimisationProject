@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.11.18)  18 DEC 2014 17:45
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.11.18)  18 DEC 2014 19:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -787,7 +787,7 @@ our preamble.
 (../LaTeX/introduction.tex [1
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<../src/plot/RandomWeather.pdf, id=47, 250.9375pt x 180.675pt>
+<../src/plot/RandomWeather.pdf, id=59, 250.9375pt x 180.675pt>
 File: ../src/plot/RandomWeather.pdf Graphic file (type pdf)
 
 <use ../src/plot/RandomWeather.pdf>
@@ -802,14 +802,14 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 13.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 13.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 13.
 Package rerunfilecheck Info: File `Bachelor_proef.out' has not changed.
-(rerunfilecheck)             Checksum: A47ED61CF6E9B7083B14262A128BD732;404.
+(rerunfilecheck)             Checksum: 450B441D88135A703EDC733F2C50D763;588.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 13.
  ) 
 Here is how much of TeX's memory you used:
- 22052 strings out of 493315
- 495152 string characters out of 6137903
+ 22059 strings out of 493315
+ 495254 string characters out of 6137903
  673824 words of memory out of 5000000
- 25058 multiletter control sequences out of 15000+600000
+ 25061 multiletter control sequences out of 15000+600000
  10328 words of font info for 38 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  58i,9n,74p,756b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -824,10 +824,10 @@ al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/
 texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/tex
 live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
 ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Bachelor_proef.pdf (3 pages, 160983 bytes).
+Output written on Bachelor_proef.pdf (3 pages, 164317 bytes).
 PDF statistics:
- 112 PDF objects out of 1000 (max. 8388607)
- 93 compressed objects within 1 object stream
- 17 named destinations out of 1000 (max. 500000)
- 66 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 127 PDF objects out of 1000 (max. 8388607)
+ 107 compressed objects within 2 object streams
+ 21 named destinations out of 1000 (max. 500000)
+ 90 words of extra memory for PDF output out of 10000 (max. 10000000)
 
