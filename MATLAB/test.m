@@ -61,8 +61,17 @@ ub(:,3) = 2;
 traject = path;
 figure('position',[1000 1000 900 600]);
 contourf(X,Y,(Vcloud.*intensity),20,'ShowText','off')
-colorbar('YTickLabel',...
-    {'Cloudy','','','','Sunny'})
+handleToColorBar = colorbar('westoutside');
+
+a = get(handleToColorBar,'position');
+a(3) = a(3)/2;
+a(1) = a(1) -0.1;
+set(handleToColorBar,'position', a);
+set(handleToColorBar,'YTickLabel', []);
+hYLabel = ylabel(handleToColorBar, 'Cloudy                                     Sunny');
+set(hYLabel,'Rotation',90);
+%colorbar('YTickLabel',...
+%    {'Cloudy','','','','Sunny'})
 title('Simulated cloud and wind data')
 xlabel('X')
 ylabel('Y')
@@ -76,6 +85,10 @@ view([0,0,90])
 axis([0 1 0 1 0 3])
 hold off
 exportfig('plots/RandomWeather.eps')
+
+
+
+
 
 
 
