@@ -5,13 +5,13 @@ startLat = 50;
 endLat = 48;
 startLong = 0;
 endLong = 10;
-m = 100;
+m = 40;
 time = 12;
 date = 180;
 
 
-[ Vcloud,~,~,X,Y ] = Static_Weather( 2,4,m );
-[ ~,VwindX,VwindY,Xw,Yw ] = Static_Weather( 2,4,20 );
+[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,10,m );
+%[ ~,VwindX,VwindY,Xw,Yw ] = Static_Weather( 2,4,20 );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
 plane = Airplane(Vcloud,VwindX,VwindY,X,Y,intensity);
 plane.SetStartPosition(0.1,0.5);
@@ -38,7 +38,7 @@ b = zeros(m*3,1);
 Aeq = zeros(3*m);
 Aeq(2*m+1,2*m+1:end) = 1;
 beq = zeros(m*3,1);
-beq(2*m+1) = m;
+beq(2*m+1) = 30;
 
 % Creating the equality costrain to keep the start time at 0
 %           Aeq*x = beq
@@ -53,35 +53,29 @@ ub(:,3) = 2;
 %%
 % Reminder: path is handled as a vector for the inequality constrains.
 
-%[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
+[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
 
 %plane.plotFancy(opt);
 
 %% Plotting stuff
+plane.plotFancy(opt)
+
+% figure('position',[1000 1000 900 600]);
+% contourf(X,Y,(Vcloud.*intensity),20,'ShowText','off')
+% colorbar('YTickLabel',...
+%     {'Cloudy','','','','Sunny'})
+% title('Simulated cloud and wind data')
+% xlabel('X')
+% ylabel('Y')
+% hold on
+% quiver3(Xw,Yw,Yw.*0+3,VwindX,VwindY,Yw.*0,'k');
+% view([0,0,90])
+% axis([0 1 0 1 0 3])
+% hold off
+% exportfig('plots/RandomWeather.eps')
 
 
-figure('position',[1000 1000 900 600]);
-contourf(X,Y,(Vcloud.*intensity),20,'ShowText','off')
-colorbar('YTickLabel',...
-    {'Cloudy','','','','Sunny'})
-title('Simulated cloud and wind data')
-xlabel('X')
-ylabel('Y')
-hold on
-quiver3(Xw,Yw,Yw.*0+3,VwindX,VwindY,Yw.*0,'k');
-view([0,0,90])
-axis([0 1 0 1 0 3])
-hold off
-exportfig('plots/RandomWeather.eps')
 
-
-
-
-%% 
-surf(peaks(30))
-colorbar('YTickLabel',...
-    {'Freezing','Cold','Cool','Neutral',...
-     'Warm','Hot','Burning','Nuclear'})
 
 
 
