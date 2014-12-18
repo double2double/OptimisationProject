@@ -21,7 +21,7 @@ This model should work as well but the results will be worse.
 As mentioned above, the optimal solution was defined to be the solution who has the most energy stored in its batteries at the end.
 This energy will be defined as
 \begin{equation}
-E(t_{end}) = \oint_{path} \alpha_{drag}v(x,y)^2  + \alpha_{accel}  s(x,y)^2   -\alpha_{sun} E_{sun}(x,y)  d\tau.
+E(x,y,t) = \oint_{path} \alpha_{drag}v(x,y)^2  + \alpha_{accel}  s(x,y)^2   -\alpha_{sun} E_{sun}(x,y)  d\tau.
 \end{equation}
 This integral has to be evaluated over the whole path to get the energy at the end.
 As  can be seen this function has no explicit solution so it will not be possible to determine the order of the problem and we will have to use a non-linear solver to find the maximum.
@@ -30,7 +30,7 @@ As  can be seen this function has no explicit solution so it will not be possibl
 
 Let us now put everything together to formulate the actual optimisation problem. In oder to numerically solve this problem we have to define a slice the flight time into discrete parts $dt$. With x and y denoting of the airplane as before we have:
 \begin{align}
-\min_{x,y,t }( -\text{Energy}(x,y,t)) & \hspace{5mm} \text{s. t. } \\
+\min_{x,y,t }( -E(x,y,t)) & \hspace{5mm} \text{s. t. } \\
 & x \in [0,1]^m\\
 & y \in [0,1]^m\\
 & [x[0],y[0]] = [x_0,y_0] \\
