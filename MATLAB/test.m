@@ -1,5 +1,6 @@
 %% A first test
 close all
+clear all
 startLat = 50;
 endLat = 48;
 startLong = 0;
@@ -9,7 +10,7 @@ time = 12;
 date = 180;
 
 
-[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,10,m );
+[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,4,m );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
 plane = Airplane(Vcloud,VwindX,VwindY,X,Y,intensity);
 plane.SetStartPosition(0.1,0.5);
@@ -22,6 +23,9 @@ y = sin(pi*x)+ 0.5;
 
 path = [x;y;t]';
 
+% Uncomment this to get a good path for seed 2,4,30 == verry nice result
+%load('opt')
+%path = opt;
 
 % Creating the inequality matrix for the time monoticity.
 %           A*x < b
@@ -48,12 +52,12 @@ ub(:,3) = 2;
 %%
 % Reminder: path is handled as a vector for the inequality constrains.
 
-[opt ,V] = fmincon(@plane.weatherSpeedCost, path,A,b,Aeq,beq,qb,ub);
+[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
 
-plane.plot(opt);
+plane.plotFancy(opt);
 hold off
 
-opt
+save('opt','opt');
 
 
 
