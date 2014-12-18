@@ -28,4 +28,15 @@ As  can be seen this function has no explicit solution so it will not be possibl
 
 \subsection{Formulation}
 
-Let us now put everything together to formulate the actual optimisation problem.
+Let us now put everything together to formulate the actual optimisation problem. In oder to numerically solve this problem we have to define a slice the flight time into discrete parts $dt$. With x and y denoting of the airplane as before we have:
+\begin{align}
+\min_{x,y,t }( -\text{Energy}(x,y,t)) & \hspace{5mm} \text{s. t. } \\
+& x \in [0,1]^m\\
+& y \in [0,1]^m\\
+& [x[0],y[0]] = [x_0,y_0] \\
+& [x[m],y[m]] = [x_m,y_m] \\
+& dt[i] > 0 \; \forall i\\
+& \sum_{i=1}^m dt(i) = 30 
+\end{align}
+Having formalized our problem we can proceed to solving it.
+
