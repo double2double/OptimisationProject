@@ -28,12 +28,14 @@ path = [x;y;t]';
 load('opt')
 %path = opt;
 
-% Creating the inequality matrix for the time monoticity.
+% Creating the inequality matrix for the time monoticity. Make shure the
+% dts are always greater then zero.
 %           A*x < b
 A = -eye(m*3);
 b = zeros(m*3,1);
 
-% Creating the equality costrain to keep the start time at 0
+% Creat a constraint to make the sum of the different time steps equal to
+% the total time.
 %           Aeq*x = beq
 Aeq = zeros(3*m);
 Aeq(2*m+1,2*m+1:end) = 1;
@@ -45,7 +47,7 @@ beq(2*m+1) = 30;
 qb = zeros(m,3);
 qb(1,1:2) = [0.1 0.5];
 qb(end,1:2) = [0.9 0.5];
-qb(1,3) = -1;
+qb(1,3) = 0;
 ub = ones(m,3);
 ub(1,1:2) = [0.1 0.5];
 ub(end,1:2) = [0.9 0.5];
@@ -53,7 +55,7 @@ ub(:,3) = 2;
 %%
 % Reminder: path is handled as a vector for the inequality constrains.
 
-%[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
+[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
 
 %plane.plotFancy(opt);
 
