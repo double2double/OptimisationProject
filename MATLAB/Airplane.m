@@ -141,7 +141,7 @@ classdef Airplane < handle
             hold off
         end
         function plotFancy(obj,traject)
-            figure()
+            figure('position',[1000 1000 900 600]);
             subplot(2,3,1);
             % Plotting the traject
             surf(obj.X,obj.Y,(obj.solarGain))
@@ -161,7 +161,7 @@ classdef Airplane < handle
             hold on
             box on
             plot(x,relspeed,'r');
-            legend('speed','relative speed');
+            %legend('speed','relative speed');
             ylabel('speed')
             hold off
             subplot(2,3,3);
@@ -174,7 +174,7 @@ classdef Airplane < handle
             subplot(2,3,4);
             % Plotting the accel
             accel = obj.acceleration(traject);
-            legend('acceleration')
+            %legend('acceleration')
             x = linspace(0,1,obj.N-3);
             plot(x,accel);
             ylabel('Acceleration')

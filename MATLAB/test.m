@@ -5,12 +5,12 @@ startLat = 50;
 endLat = 48;
 startLong = 0;
 endLong = 10;
-m = 40;
+m = 30;
 time = 12;
 date = 180;
 
 
-[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,10,m );
+[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,4,m );
 %[ ~,VwindX,VwindY,Xw,Yw ] = Static_Weather( 2,4,20 );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
 plane = Airplane(Vcloud,VwindX,VwindY,X,Y,intensity);
@@ -53,13 +53,14 @@ ub(:,3) = 2;
 %%
 % Reminder: path is handled as a vector for the inequality constrains.
 
-[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
+%[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
 
 %plane.plotFancy(opt);
 
 %% Plotting stuff
+figure('position',[1000 1000 900 600]);
 plane.plotFancy(opt)
-
+exportfig('plots/RandomWeather.eps')
 % figure('position',[1000 1000 900 600]);
 % contourf(X,Y,(Vcloud.*intensity),20,'ShowText','off')
 % colorbar('YTickLabel',...
