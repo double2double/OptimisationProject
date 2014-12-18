@@ -11,7 +11,7 @@ date = 180;
 
 
 [ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,4,m );
-%[ ~,VwindX,VwindY,Xw,Yw ] = Static_Weather( 2,4,20 );
+[ ~,VwindX,VwindY,Xw,Yw ] = Static_Weather( 2,4,20 );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
 plane = Airplane(Vcloud,VwindX,VwindY,X,Y,intensity);
 plane.SetStartPosition(0.1,0.5);
@@ -58,22 +58,37 @@ ub(:,3) = 2;
 %plane.plotFancy(opt);
 
 %% Plotting stuff
+traject = path;
 figure('position',[1000 1000 900 600]);
-plane.plotFancy(opt)
+contourf(X,Y,(Vcloud.*intensity),20,'ShowText','off')
+handleToColorBar = colorbar('westoutside');
+
+a = get(handleToColorBar,'position');
+a(3) = a(3)/2;
+a(1) = a(1) -0.1;
+set(handleToColorBar,'position', a);
+set(handleToColorBar,'YTickLabel', []);
+hYLabel = ylabel(handleToColorBar, 'Cloudy                                     Sunny');
+set(hYLabel,'Rotation',90);
+%colorbar('YTickLabel',...
+%    {'Cloudy','','','','Sunny'})
+title('Simulated cloud and wind data')
+xlabel('X')
+ylabel('Y')
+hold on
+hig = 0.*traject(:,1)+3;
+plot3(traject(:,1),traject(:,2),hig,'--k','LineWidth', 2);
+traject = opt;
+plot3(traject(:,1),traject(:,2),hig,'-k','LineWidth', 2);
+quiver3(Xw,Yw,Yw.*0+3,VwindX,VwindY,Yw.*0,'k');
+view([0,0,90])
+axis([0 1 0 1 0 3])
+hold off
 exportfig('plots/RandomWeather.eps')
-% figure('position',[1000 1000 900 600]);
-% contourf(X,Y,(Vcloud.*intensity),20,'ShowText','off')
-% colorbar('YTickLabel',...
-%     {'Cloudy','','','','Sunny'})
-% title('Simulated cloud and wind data')
-% xlabel('X')
-% ylabel('Y')
-% hold on
-% quiver3(Xw,Yw,Yw.*0+3,VwindX,VwindY,Yw.*0,'k');
-% view([0,0,90])
-% axis([0 1 0 1 0 3])
-% hold off
-% exportfig('plots/RandomWeather.eps')
+
+
+
+
 
 
 

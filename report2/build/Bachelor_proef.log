@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.11.18)  18 DEC 2014 20:28
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.11.18)  18 DEC 2014 22:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -708,6 +708,28 @@ Package: metalogo 2010/05/29 v0.12 Extended TeX logo macros
 LaTeX Info: Redefining \TeX on input line 193.
 LaTeX Info: Redefining \LaTeX on input line 202.
 LaTeX Info: Redefining \LaTeXe on input line 219.
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen183
+\captionmargin@=\dimen184
+\captionwidth=\dimen185
+\caption@tempdima=\dimen186
+\caption@indent=\dimen187
+\caption@parindent=\dimen188
+\caption@hangindent=\dimen189
+)
+\c@ContinuedFloat=\count140
+Package caption Info: hyperref package is loaded.
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
+\c@subfigure=\count141
+\c@subtable=\count142
 ))
 (./Bachelor_proef.aux)
 \openout1 = `Bachelor_proef.aux'.
@@ -731,16 +753,16 @@ LaTeX Font Info:    ... okay on input line 3.
 
 (/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count140
-\scratchdimen=\dimen183
+\scratchcounter=\count143
+\scratchdimen=\dimen190
 \scratchbox=\box42
-\nofMPsegments=\count141
-\nofMParguments=\count142
+\nofMPsegments=\count144
+\nofMParguments=\count145
 \everyMPshowfont=\toks39
-\MPscratchCnt=\count143
-\MPscratchDim=\dimen184
-\MPnumerator=\count144
-\makeMPintoPDFobject=\count145
+\MPscratchCnt=\count146
+\MPscratchDim=\dimen191
+\MPnumerator=\count147
+\makeMPintoPDFobject=\count148
 \everyMPtoPDFconversion=\toks40
 ) (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -766,7 +788,7 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count146
+\c@section@level=\count149
 )
 LaTeX Info: Redefining \ref on input line 3.
 LaTeX Info: Redefining \pageref on input line 3.
@@ -784,6 +806,8 @@ ick labels; missing features). Consider writing \pgfplotsset{compat=1.8} into y
 our preamble.
  on input line 3.
 
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
 (../LaTeX/introduction.tex [1
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
@@ -795,22 +819,47 @@ Package pdftex.def Info: ../src/plot/RandomWeather.pdf used on input line 51.
 (pdftex.def)             Requested size: 227.62204pt x 163.8962pt.
  [2 <../src/plot/RandomWeather.pdf>])
 (../LaTeX/optimization.tex)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 13.
- [3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 13.
+<../src/plot/fancy/path2.pdf, id=78, 216.81pt x 180.675pt>
+File: ../src/plot/fancy/path2.pdf Graphic file (type pdf)
+
+<use ../src/plot/fancy/path2.pdf>
+Package pdftex.def Info: ../src/plot/fancy/path2.pdf used on input line 17.
+(pdftex.def)             Requested size: 284.56241pt x 284.55634pt.
+
+Overfull \hbox (56.94037pt too wide) in paragraph at lines 17--18
+ [][] 
+ []
+
+<../src/plot/fancy/Energy.pdf, id=79, 234.8775pt x 163.61125pt>
+File: ../src/plot/fancy/Energy.pdf Graphic file (type pdf)
+
+<use ../src/plot/fancy/Energy.pdf>
+Package pdftex.def Info: ../src/plot/fancy/Energy.pdf used on input line 24.
+(pdftex.def)             Requested size: 128.03616pt x 128.03816pt.
+
+<../src/plot/fancy/speed.pdf, id=80, 245.91875pt x 163.61125pt>
+File: ../src/plot/fancy/speed.pdf Graphic file (type pdf)
+
+<use ../src/plot/fancy/speed.pdf>
+Package pdftex.def Info: ../src/plot/fancy/speed.pdf used on input line 27.
+(pdftex.def)             Requested size: 128.04358pt x 128.03816pt.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 34.
+ [3] [4 <../src/plot/fancy/path2.pdf> <../src/plot/fancy/Energy.pdf> <../src/pl
+ot/fancy/speed.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 34.
  (./Bachelor_proef.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 13.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 13.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 34.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 34.
 Package rerunfilecheck Info: File `Bachelor_proef.out' has not changed.
 (rerunfilecheck)             Checksum: 450B441D88135A703EDC733F2C50D763;588.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 13.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 34.
  ) 
 Here is how much of TeX's memory you used:
- 22059 strings out of 493315
- 495254 string characters out of 6137903
- 673824 words of memory out of 5000000
- 25061 multiletter control sequences out of 15000+600000
- 10328 words of font info for 38 fonts, out of 8000000 for 9000
+ 23142 strings out of 493315
+ 515159 string characters out of 6137903
+ 674824 words of memory out of 5000000
+ 26128 multiletter control sequences out of 15000+600000
+ 10628 words of font info for 39 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  58i,9n,74p,756b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
@@ -824,10 +873,10 @@ al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/
 texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/tex
 live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
 ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Bachelor_proef.pdf (3 pages, 164317 bytes).
+Output written on Bachelor_proef.pdf (4 pages, 194150 bytes).
 PDF statistics:
- 127 PDF objects out of 1000 (max. 8388607)
- 107 compressed objects within 2 object streams
- 21 named destinations out of 1000 (max. 500000)
- 90 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 150 PDF objects out of 1000 (max. 8388607)
+ 123 compressed objects within 2 object streams
+ 23 named destinations out of 1000 (max. 500000)
+ 105 words of extra memory for PDF output out of 10000 (max. 10000000)
 
