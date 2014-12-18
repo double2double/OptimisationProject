@@ -42,11 +42,16 @@ classdef Airplane < handle
             obj.xEnd = x;
             obj.yEnd = y;
         end
+        
         function [ V ] = energyEnd(obj, traject )
+            %This is the cost function that is later passed onto the solver.
             energy = obj.getEnergy(traject);
             V = -energy(end)
         end
         function Energy = getEnergy(obj,traject)
+            %This function computes the energy of the plane, consiting of
+            %relative speed acceleration (compute from the absolute speed) and
+            %the solar energy converted trough the panels.
             Vaccel = -0.03;
             Vsun = 1;
             Vdrag = -100;
@@ -69,6 +74,7 @@ classdef Airplane < handle
         end
         % Some aid functions.
         function weather = sunCost(obj,traject)
+            %compute the solar energy converted. 
             dt = traject(1:end-1,3);
             stepLength = obj.stepLength(traject);
             weather = zeros(obj.N-1,1);
