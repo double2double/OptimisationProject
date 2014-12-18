@@ -5,12 +5,13 @@ startLat = 50;
 endLat = 48;
 startLong = 0;
 endLong = 10;
-m = 30;
+m = 100;
 time = 12;
 date = 180;
 
 
-[ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,4,m );
+[ Vcloud,~,~,X,Y ] = Static_Weather( 2,4,m );
+[ ~,VwindX,VwindY,Xw,Yw ] = Static_Weather( 2,4,20 );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
 plane = Airplane(Vcloud,VwindX,VwindY,X,Y,intensity);
 plane.SetStartPosition(0.1,0.5);
@@ -54,11 +55,33 @@ ub(:,3) = 2;
 
 %[opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
 
-plane.plotFancy(opt);
+%plane.plotFancy(opt);
+
+%% Plotting stuff
+
+
+figure('position',[1000 1000 900 600]);
+contourf(X,Y,(Vcloud.*intensity),20,'ShowText','off')
+colorbar('YTickLabel',...
+    {'Cloudy','','','','Sunny'})
+title('Simulated cloud and wind data')
+xlabel('X')
+ylabel('Y')
+hold on
+quiver3(Xw,Yw,Yw.*0+3,VwindX,VwindY,Yw.*0,'k');
+view([0,0,90])
+axis([0 1 0 1 0 3])
 hold off
+exportfig('plots/RandomWeather.eps')
 
-save('opt','opt');
 
+
+
+%% 
+surf(peaks(30))
+colorbar('YTickLabel',...
+    {'Freezing','Cold','Cool','Neutral',...
+     'Warm','Hot','Burning','Nuclear'})
 
 
 

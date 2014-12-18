@@ -28,12 +28,49 @@ The local amount of sun is determined by two factors, the angle of the sun at th
 
 For the inclination angle of the sun we used \textbf{\dots}
 
-To simulate clouds we ware looking for highly autocorrelated random data so that the clouds would be located in islands rather than be scatterted without any patern in out sky.
+To simulate clouds we where looking for highly autocorrelated random data so that the clouds would be located in islands rather than being scattered without any pattern in the sky.
+The technique we applied was to generate a low dimensional matrix random matrix and extrapolate the data points to get a continuous grid.
+An example of the simulated weather is shown in Figure \ref{fig:RandomWeather}.
+
+At the end the local solar gain is eventually calculated by the product of the suns intensity and the amount of clouds.
+\begin{equation}
+E_{sun}(x,y)  =  V_{sun}(x,y) V_{Cloud}(x,y)
+\end{equation}
+The total amount of energy collected by the airplane is now given by 
+\begin{equation}
+E_{sun}(t)  =  -\alpha_{sun}\oint_{path} E_{sun}(x,y)  d\tau,
+\end{equation}
+this path integral is evaluated over the path from $ \tau=0 $ till $ \tau=t $.
+The constant term in front of the integral is a scaling term that can be adjusted to tune the weight of the individual energies.
+Remark the minus sing in front of the integral, this implies that we want to maximise the solar gain.
+
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\linewidth]{../src/plot/RandomWeather}
+\caption{An example of  simulated weather data. The colour map represents the intensity of the sun, the arrows point in the direction of the wind. This data is created by the  interpolation on a 4 by 4 random generated matrix. }
+\label{fig:RandomWeather}
+\end{figure}
+
 
 \subsubsection{Drag resistance}
 
+A second import aspect that influences the energy balance of the airplane is the drag force.
+The introducing a drag force will keep the velocity of the plane bounded.
+We chose to use a simple quadratic dependency of the the drag force and the speed.
+The drag force is then defined as 
+\begin{equation}
+E_{drag}(t)  =  \alpha_{drag} \oint_{path} v(x,y).^2  d \tau,
+\end{equation}
+the same conventions for the integral apply as noted above.
+
+
 \subsubsection{Acceleration force}
 
+The acceleration force is the last parameter that we looked at.
 
-Let us now start and create a mathematical model for the airplane.
+
+
+
 
