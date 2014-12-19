@@ -202,7 +202,7 @@ classdef Airplane < handle
             ylabel('Enegy')
             xlabel('Time')
             title('Energy as a function of time')
-            axis([0 30 0 3.5])
+            axis([0 30 -1 1.5])
             box on
             exportfig('plots/Energy.eps')
             figure('position',[1000 1000 900 600]); %subplot(2,3,6)

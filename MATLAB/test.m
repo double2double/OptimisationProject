@@ -9,8 +9,9 @@ m = 30;
 time = 12;
 date = 180;
 
-k = 20;
-l = 10;
+k = 2;
+l = 4;
+
 [ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( k,l,m );
 %[ ~,VwindX2,VwindY2,Xw,Yw ] = Static_Weather( k,l,20 );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
@@ -67,7 +68,7 @@ save('opt','opt')
 [ ~,VwindX2,VwindY2,Xw,Yw ] = Static_Weather( k,l,20 );
 
 
-traject = path;
+traject = [x;y;t]';
 figure('position',[1000 1000 900 600]);
 contourf(X,Y,(Vcloud.*intensity),20,'ShowText','off')
 handleToColorBar = colorbar('westoutside');
@@ -81,7 +82,7 @@ hYLabel = ylabel(handleToColorBar, 'Cloudy                                     S
 set(hYLabel,'Rotation',90);
 %colorbar('southoutside','YTickLabel',...
 %    {'Cloudy','','','','Sunny'})
-title('Simulated cloud and wind data')
+title('Optimal path')
 xlabel('X')
 ylabel('Y')
 hold on
