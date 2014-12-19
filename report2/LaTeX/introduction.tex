@@ -30,9 +30,9 @@ However the angle of the sun consists of declination and hour angle. For the dec
 \begin{equation}
 \theta = 23.45 * sin(360/365 * (d -81)*pi/180);
 \end{equation}
-The other important angle we considered is the hour angle of the sun with depends on the time of the day. However as we are going keep the weather and sun data constant during the flight and we are assuming at flight at noon the hour angle is constant 0.
+With $d$ denoting the number of days since the beginning of the year. The other important angle we considered is the hour angle of the sun with depends on the time of the day. However as we are going keep the weather and sun data constant during the flight and we are assuming at flight at noon the hour angle is constant 0.
 
-With $d$ denoting the number of days since the beginning of the year.
+
 To simulate clouds we where looking for highly autocorrelated random data so that the clouds would be located in islands rather than being scattered without any pattern in the sky.
 The technique we applied was to generate a low dimensional random matrix and extrapolate the data points to get a continuous grid.
 An example of the simulated weather is shown in Figure \ref{fig:RandomWeather}.
