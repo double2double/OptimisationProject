@@ -29,4 +29,18 @@ As  can be seen this function has no explicit solution so it will not be possibl
 
 \subsection{Formulation}
 
-Let us now put everything together to formulate the actual optimisation problem.
+Let us now put everything together to formulate the actual optimisation problem. In oder to numerically solve this problem we have to define a slice the flight time into discrete parts $dt$. With x and y denoting of the airplane as before we have:
+\begin{align*}
+\min_{\mathbf{P} }( -E(\left[\mathbf{X},\mathbf{Y},\mathbf{t} \right] )) & \hspace{5mm} \text{s. t. } \\
+& x \in [0,1]^m \hspace{20mm} | \forall x \in \mathbf{X}\\
+& y \in [0,1]^m \hspace{20mm} | \forall y \in \mathbf{Y}\\
+& [\mathbf{X}[0],\mathbf{Y}[0]] = [x_0,y_0] \\
+& [\mathbf{X}[m],\mathbf{Y}[m]] = [x_m,y_m] \\
+& dt > 0 \hspace{26.7mm} | \forall dt \in \mathbf{t}\\
+& \sum_{i=1}^m \mathbf{t}[i] = 30 
+\end{align*}
+All these boundary conditions arise very naturally.
+The boundary conditions concerned about $ \mathbf{X} $ and $ \mathbf{Y} $ come from the fact that the plane has to stay in the zone where we know the weather and they fix the starting and the ending locations of the plane.
+The boundary conditions for the time insures that the all the timesteps done by the plane are positive and fix the arrival time at 30.
+Having formalized our problem we can proceed to solving it.
+
