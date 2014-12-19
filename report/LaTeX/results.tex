@@ -4,7 +4,7 @@ In this section we will take a look at the results of the optimisation problem.
 We look at two differed cloud set-ups for the clouds and wind, a first one will be a system with one big cloud in the center. the second one will have a collection of several smaller clouds.
 
 
-\section{A first setup}
+\subsection{A first setup}
 
 The results returned by the optimization algorithm  for the first set-up are shown in Figure \ref{fig:badPlot}. 
 On this Figure 3 plots are given, one of the actual path, one of the energy stored in the batteries and one of the relative and absolute speed of the plane.
@@ -15,24 +15,24 @@ We observe that the flight path nicely avoids the clouds in the centre, while at
   \vspace*{\fill}
   \centering
   \includegraphics[width=10cm,height=10cm]{../src/plot/fancy1/path}
-  \subcaption{test figure one}
+  \subcaption{flight path}
   \label{fig:test1}
 \end{minipage}%
 \begin{minipage}[c][11cm][t]{.5\textwidth}
   \vspace*{\fill}
   \centering
   \includegraphics[width=4.5cm,height=4.5cm]{../src/plot/fancy1/Energy}
-  \subcaption{test figure two}
+  \subcaption{Energy}
   \label{fig:test2}\par\vfill
   \includegraphics[width=4.5cm,height=4.5cm]{../src/plot/fancy1/speed}
-  \subcaption{test figure three}
+  \subcaption{absolute and relative speed}
   \label{fig:test3}
 \end{minipage}
 \caption{The left plot shows the optimized path for our optimization problem. The speed of the airplane (blue) and the relative speed (red) are shown in the bottom right position. In top the right position we show the amount of energy that's stored in the plane's solar batteries as a function of time. For this setup this function is nearly everywhere increasing.}
 \label{fig:badPlot}
 \end{figure}
 
-\section{A second setup}
+\subsection{A second setup}
 
 
 As a second set-up we tried an other set-up for the weather just to look at how the algorithm performers on a complexer problem.
@@ -49,20 +49,20 @@ When the plane has to manoeuvre very carefully the stepsize gets smaller, this i
   \vspace*{\fill}
   \centering
   \includegraphics[width=10cm,height=10cm]{../src/plot/fancy2/path}
-  \subcaption{test figure one}
+  \subcaption{flight path}
   \label{fig:test21}
 \end{minipage}%
 \begin{minipage}[c][11cm][t]{.5\textwidth}
   \vspace*{\fill}
   \centering
   \includegraphics[width=4.5cm,height=4.5cm]{../src/plot/fancy2/Energy}
-  \subcaption{test figure two}
+  \subcaption{Energy}
   \label{fig:test22}\par\vfill
   \includegraphics[width=4.5cm,height=4.5cm]{../src/plot/fancy2/speed}
-  \subcaption{test figure three}
+  \subcaption{absolute and relative Speed}
   \label{fig:test32}
 \end{minipage}
-\caption{The left plot shows the optimized path for our optimization problem. The speed of the airplane (blue) and the relative speed (red) are shown in the bottom right position. In top the right position we show the amount of energy that's converted in the plane's solar cells as a function of time. The bottom left shows the acceleration as a function of time. The bottom middle plot depicts the energy level in the battery throughout the flight. Finally the bottom right plot depicts the derivative of the cost function.}
+\caption{The left plot shows the optimized path for our optimization problem. The speed of the airplane (blue) and the relative speed (red) are shown in the bottom right position. In top the right position we show the amount of energy that's converted in the plane's solar cells as a function of time.}
 \label{fig:badPlot2}
 \end{figure}
 
