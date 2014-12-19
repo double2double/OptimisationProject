@@ -148,8 +148,7 @@ classdef Airplane < handle
         end
         function plotFancy(obj,traject)
             time = cumsum(traject(:,3));
-            figure('position',[1000 1000 900 600]);
-            %subplot(2,3,1);
+            subplot(2,3,1);
             % Plotting the traject
             surf(obj.X,obj.Y,(obj.solarGain))
             hold on
@@ -160,7 +159,7 @@ classdef Airplane < handle
             axis([0 1 0 1 0 3])
             hold off
             exportfig('plots/path.eps')
-            figure('position',[1000 1000 900 600]); %subplot(2,3,2);
+            subplot(2,3,2);
             % Plotting the speed/ relative speed
             speed = obj.speed(traject);
             relspeed = obj.relativespeed(traject);
@@ -169,13 +168,13 @@ classdef Airplane < handle
             hold on
             box on
             plot(x,relspeed,'r');
-            %legend('speed','relative speed');
+            legend('speed','relative speed');
             ylabel('Speed')
             xlabel('Time')
             hold off
             title('Speed in function of time')
             exportfig('plots/speed.eps')
-            figure('position',[1000 1000 900 600]); %subplot(2,3,3);
+            subplot(2,3,3);
             % Plotting the solar gain
             sunCost = obj.sunCost(traject);
             x = time(1:end-1);
@@ -185,16 +184,15 @@ classdef Airplane < handle
             ylabel('Sun gain')
             box on
             exportfig('plots/sun.eps')
-            figure('position',[1000 1000 900 600]); %subplot(2,3,4);
+            subplot(2,3,4);
             % Plotting the accel
             accel = obj.acceleration(traject);
-            %legend('acceleration')
             x = time(2:end-2);
             plot(x,accel);
             ylabel('Acceleration')
             box on
             exportfig('plots/acc.eps')
-            figure('position',[1000 1000 900 600]); %subplot(2,3,5)
+            subplot(2,3,5)
             % Plotting the energy
             energy = obj.getEnergy(traject);
             x = time(1:end);
@@ -205,7 +203,7 @@ classdef Airplane < handle
             axis([0 30 0 5])
             box on
             exportfig('plots/Energy.eps')
-            figure('position',[1000 1000 900 600]); %subplot(2,3,6)
+            subplot(2,3,6)
             % Plotting the energy
             energy = obj.getEnergy(traject);
             x = linspace(0,1,obj.N);

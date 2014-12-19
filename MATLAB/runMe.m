@@ -2,32 +2,33 @@
 close all
 clear all
 addpath('functions')
-% Setting up some constants
+% Setting up some parameters
+m = 10;                         % number of steps in the path (30 gives good solution)
+k = 2;                          % Seed for the clouds
+l = 4;                          % Complexity for clouds
+% Setting up constants for the sun model
 startLat = 50;
 endLat = 48;
 startLong = 0;
 endLong = 10;
-m = 10;
 time = 12;
 date = 180;
 
-
+% Creating weather
 [ Vcloud,VwindX,VwindY,X,Y ] = Static_Weather( 2,4,m );
 [ intensity ] = sunGrid( m,time,startLat,startLong,endLat,endLong );
+
+% Initialising the plane with the weather and setting start end end.
 plane = Airplane(Vcloud,VwindX,VwindY,X,Y,intensity);
 plane.SetStartPosition(0.1,0.5);
 plane.SetEndPosition(0.9,0.5);
 
-% Create an initial guess for the path. 
+% Create an initial guess for the path (Just a straight line)
 x = linspace(0.1,0.9,m);
 t = ones(1,m);
 y = sin(pi*x).*0+ 0.5;
-
 path = [x;y;t]';
 
-% Uncomment this to get a good path for seed 2,4,30
-load('opt')
-%path = opt;
 
 % Creating the inequality matrix for the time monoticity, i.e. make shure the
 % dts are always greater then zero.
@@ -56,6 +57,7 @@ ub(:,3) = 2;
 %% Calculating the optimal path
 [opt ,V] = fmincon(@plane.energyEnd, path,A,b,Aeq,beq,qb,ub);
 
+%% plotting the path
 plane.plotFancy(opt);
 
 
