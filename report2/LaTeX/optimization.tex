@@ -5,7 +5,7 @@ In this section we will formulate the optimisation problem in a formal way.
 
 In the previous section we talked a lot about the path of the airplane but we did not mention how we are going to define such a path.
 The path is the thing we want to see optimised, as a result of this we take it to be the input of our optimisation algorithm.
-To define the path we used a $ m $by 3 matrix, 
+To define the path we used a $m$ by 3 matrix, 
 \begin{equation}
 \mathbf{P} = \left[\mathbf{X},\mathbf{Y},\mathbf{t} \right] .
 \end{equation}
@@ -13,14 +13,14 @@ typically the value of $ m $ was of the order of 30, so we had a 90 dimensional 
 The first column of the matrix $ \mathbf{X} $ represents the $ x $ values of the trajectory, the second column $ \mathbf{Y} $ represents the $ y $ coordinates and the third column $ \mathbf{t}  $ represents the time steps.
 Using these three columns it is possible to calculate all the flight aspects of the airplane, for instance its speed or its acceleration.
 
-An other possibility was to exclude the time vector and amuse that the time taken in every step was constant.
-To compensate for different step lengths in the path  the  speed of the plane had to be adjusted every step.
-We tried both models but found the first model to be more realistic and gave  better results.
+An other possibility was to exclude the time vector and assume that the time taken in every step was constant.
+To compensate for different step lengths along the path  the  speed of the plane had to be adjusted in every step.
+We tried both models but found the first model to be more realistic. In addition it gave  better results.
 
 \subsection{Optimal solution}
 
 As mentioned above, the optimal solution was defined to be the path for which the maximum amount of energy remained in the batteries at the end of the flight.
-This residual  energy is defined as
+This residual  energy is defined as:
 \begin{equation}
 E(\mathbf{P}) = \oint_{path} \alpha_{drag}v(x,y)^2  + \alpha_{accel}  s(x,y)^2   -\alpha_{sun} E_{sun}(x,y)  d\tau.
 \end{equation}
@@ -29,7 +29,7 @@ As  can be seen this function has no explicit solution so it will not be possibl
 
 \subsection{Formulation}
 
-Let us now put everything together to formulate the actual optimisation problem. In oder to numerically solve this problem we have to define a slice the flight time into discrete parts $dt$. With x and y denoting of the airplane as before we have:
+Let us now put everything together to formulate the actual optimisation problem. In oder to numerically solve this problem we have to slice the flight time into discrete parts $dt$. With x and y denoting of the airplane as before we have:
 \begin{align*}
 \min_{\mathbf{P} }( -E(\left[\mathbf{X},\mathbf{Y},\mathbf{t} \right] )) & \hspace{5mm} \text{s. t. } \\
 & x \in [0,1]^m \hspace{20mm} | \forall x \in \mathbf{X}\\
@@ -37,7 +37,7 @@ Let us now put everything together to formulate the actual optimisation problem.
 & [\mathbf{X}[0],\mathbf{Y}[0]] = [x_0,y_0] \\
 & [\mathbf{X}[m],\mathbf{Y}[m]] = [x_m,y_m] \\
 & dt > 0 \hspace{26.7mm} | \forall dt \in \mathbf{t}\\
-& \sum_{i=1}^m \mathbf{t}[i] = 30 
+& \sum_{i=1}^m \mathbf{t}[i] = 30 .
 \end{align*}
 All these boundary conditions arise very naturally.
 The boundary conditions concerned about $ \mathbf{X} $ and $ \mathbf{Y} $ come from the fact that the plane has to stay in the zone where we know the weather and they fix the starting and the ending locations of the plane.
