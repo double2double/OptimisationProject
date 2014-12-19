@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.11.18)  19 DEC 2014 12:52
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.11.18)  19 DEC 2014 14:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -811,7 +811,7 @@ Package caption Info: End \AtBeginDocument code.
 (../LaTeX/introduction.tex [1
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<../src/plot/RandomWeather.pdf, id=67, 246.9225pt x 180.675pt>
+<../src/plot/RandomWeather.pdf, id=75, 246.9225pt x 180.675pt>
 File: ../src/plot/RandomWeather.pdf Graphic file (type pdf)
 
 <use ../src/plot/RandomWeather.pdf>
@@ -819,47 +819,73 @@ Package pdftex.def Info: ../src/plot/RandomWeather.pdf used on input line 50.
 (pdftex.def)             Requested size: 227.62204pt x 166.55107pt.
  [2 <../src/plot/RandomWeather.pdf>])
 (../LaTeX/optimization.tex [3]) (../LaTeX/results.tex
-<../src/plot/fancy/path.pdf, id=94, 246.9225pt x 180.675pt>
-File: ../src/plot/fancy/path.pdf Graphic file (type pdf)
+<../src/plot/fancy1/path.pdf, id=102, 246.9225pt x 180.675pt>
+File: ../src/plot/fancy1/path.pdf Graphic file (type pdf)
 
-<use ../src/plot/fancy/path.pdf>
-Package pdftex.def Info: ../src/plot/fancy/path.pdf used on input line 10.
+<use ../src/plot/fancy1/path.pdf>
+Package pdftex.def Info: ../src/plot/fancy1/path.pdf used on input line 17.
 (pdftex.def)             Requested size: 284.54263pt x 284.55634pt.
 
-Overfull \hbox (56.9206pt too wide) in paragraph at lines 10--11
+Overfull \hbox (56.9206pt too wide) in paragraph at lines 17--18
  [][] 
  []
 
-<../src/plot/fancy/Energy.pdf, id=95, 243.91125pt x 180.675pt>
-File: ../src/plot/fancy/Energy.pdf Graphic file (type pdf)
+<../src/plot/fancy1/Energy.pdf, id=103, 243.91125pt x 180.675pt>
+File: ../src/plot/fancy1/Energy.pdf Graphic file (type pdf)
 
-<use ../src/plot/fancy/Energy.pdf>
-Package pdftex.def Info: ../src/plot/fancy/Energy.pdf used on input line 17.
+<use ../src/plot/fancy1/Energy.pdf>
+Package pdftex.def Info: ../src/plot/fancy1/Energy.pdf used on input line 24.
 (pdftex.def)             Requested size: 128.0367pt x 128.03752pt.
 
-<../src/plot/fancy/speed.pdf, id=96, 247.92625pt x 180.675pt>
-File: ../src/plot/fancy/speed.pdf Graphic file (type pdf)
+<../src/plot/fancy1/speed.pdf, id=104, 247.92625pt x 180.675pt>
+File: ../src/plot/fancy1/speed.pdf Graphic file (type pdf)
 
-<use ../src/plot/fancy/speed.pdf>
-Package pdftex.def Info: ../src/plot/fancy/speed.pdf used on input line 20.
+<use ../src/plot/fancy1/speed.pdf>
+Package pdftex.def Info: ../src/plot/fancy1/speed.pdf used on input line 27.
 (pdftex.def)             Requested size: 128.03716pt x 128.03752pt.
-) (../LaTeX/conclusion.tex [4])
+ [4]
+<../src/plot/fancy2/path.pdf, id=112, 246.9225pt x 180.675pt>
+File: ../src/plot/fancy2/path.pdf Graphic file (type pdf)
+
+<use ../src/plot/fancy2/path.pdf>
+Package pdftex.def Info: ../src/plot/fancy2/path.pdf used on input line 51.
+(pdftex.def)             Requested size: 284.54263pt x 284.55634pt.
+
+Overfull \hbox (56.9206pt too wide) in paragraph at lines 51--52
+ [][] 
+ []
+
+<../src/plot/fancy2/Energy.pdf, id=113, 247.92625pt x 180.675pt>
+File: ../src/plot/fancy2/Energy.pdf Graphic file (type pdf)
+
+<use ../src/plot/fancy2/Energy.pdf>
+Package pdftex.def Info: ../src/plot/fancy2/Energy.pdf used on input line 58.
+(pdftex.def)             Requested size: 128.03716pt x 128.03752pt.
+
+<../src/plot/fancy2/speed.pdf, id=114, 247.92625pt x 180.675pt>
+File: ../src/plot/fancy2/speed.pdf Graphic file (type pdf)
+
+<use ../src/plot/fancy2/speed.pdf>
+Package pdftex.def Info: ../src/plot/fancy2/speed.pdf used on input line 61.
+(pdftex.def)             Requested size: 128.03716pt x 128.03752pt.
+) (../LaTeX/conclusion.tex [5 <../src/plot/fancy1/path.pdf> <../src/plot/fancy1
+/Energy.pdf> <../src/plot/fancy1/speed.pdf>])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 15.
- [5 <../src/plot/fancy/path.pdf> <../src/plot/fancy/Energy.pdf> <../src/plot/fa
-ncy/speed.pdf>]
+[6 <../src/plot/fancy2/path.pdf> <../src/plot/fancy2/Energy.pdf> <../src/plot/f
+ancy2/speed.pdf>]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 15.
-(./Bachelor_proef.aux)
+ (./Bachelor_proef.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 15.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 15.
 Package rerunfilecheck Info: File `Bachelor_proef.out' has not changed.
-(rerunfilecheck)             Checksum: 0F2EFC65C0CC7C81DFA9D8A2E17ABF3F;677.
+(rerunfilecheck)             Checksum: A8F81CD20028FE2582E57F02AE034463;776.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 15.
  ) 
 Here is how much of TeX's memory you used:
- 23158 strings out of 493315
- 515362 string characters out of 6137903
+ 23186 strings out of 493315
+ 516001 string characters out of 6137903
  676824 words of memory out of 5000000
- 26133 multiletter control sequences out of 15000+600000
+ 26154 multiletter control sequences out of 15000+600000
  11249 words of font info for 41 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  58i,10n,74p,756b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -875,10 +901,10 @@ al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local
 xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texli
 ve/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
 e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Bachelor_proef.pdf (5 pages, 215564 bytes).
+Output written on Bachelor_proef.pdf (6 pages, 383665 bytes).
 PDF statistics:
- 169 PDF objects out of 1000 (max. 8388607)
- 140 compressed objects within 2 object streams
- 27 named destinations out of 1000 (max. 500000)
- 121 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 213 PDF objects out of 1000 (max. 8388607)
+ 175 compressed objects within 2 object streams
+ 31 named destinations out of 1000 (max. 500000)
+ 152 words of extra memory for PDF output out of 10000 (max. 10000000)
 
