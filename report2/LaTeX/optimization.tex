@@ -1,27 +1,28 @@
 \section{The optimisation problem}
 
-
 In this section we will formulate the optimisation problem in a formal way.
-
-
 \subsection{Parameters}
 
 In the previous section we talked a lot about the path of the airplane but we did not mention how we are going to define such a path.
 The path is the thing we want to see optimised, as a result of this we take it to be the input of our optimisation algorithm.
-To define the path we used a $ m $by 3 matrix.
-The first column of the matrix represents the $ x $ values of the trajectory, the second column represents the $ y $ coordinates and the third column represents the time steps.
-Using these three columns it is possible to calculate al the flight aspects of the airplane, for instance its speed or its acceleration.
+To define the path we used a $ m $by 3 matrix, 
+\begin{equation}
+\mathbf{P} = \left[\mathbf{X},\mathbf{Y},\mathbf{t} \right] .
+\end{equation}
+typically the value of $ m $ was of the order of 30, so we had a 90 dimensional input space.
+The first column of the matrix $ \mathbf{X} $ represents the $ x $ values of the trajectory, the second column $ \mathbf{Y} $ represents the $ y $ coordinates and the third column $ \mathbf{t}  $ represents the time steps.
+Using these three columns it is possible to calculate all the flight aspects of the airplane, for instance its speed or its acceleration.
 
 An other possibility was to exclude the time vector and amuse that the time taken in every step was constant.
-To compensate for different step lengths of the plane the speed had to be adjusted every time.
-This model should work as well but the results will be worse.
+To compensate for different step lengths in the path  the  speed of the plane had to be adjusted every step.
+We tried both models but found the first model to be more realistic and gave  better results.
 
 \subsection{Optimal solution}
 
-As mentioned above, the optimal solution was defined to be the solution who has the most energy stored in its batteries at the end.
-This energy will be defined as
+As mentioned above, the optimal solution was defined to be the path for which the maximum amount of energy remained in the batteries at the end of the flight.
+This residual  energy is defined as
 \begin{equation}
-E(t_{end}) = \oint_{path} \alpha_{drag}v(x,y)^2  + \alpha_{accel}  s(x,y)^2   -\alpha_{sun} E_{sun}(x,y)  d\tau.
+E(\mathbf{P}) = \oint_{path} \alpha_{drag}v(x,y)^2  + \alpha_{accel}  s(x,y)^2   -\alpha_{sun} E_{sun}(x,y)  d\tau.
 \end{equation}
 This integral has to be evaluated over the whole path to get the energy at the end.
 As  can be seen this function has no explicit solution so it will not be possible to determine the order of the problem and we will have to use a non-linear solver to find the maximum.

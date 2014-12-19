@@ -141,6 +141,7 @@ classdef Airplane < handle
             hold off
         end
         function plotFancy(obj,traject)
+            time = cumsum(traject(:,3));
             figure('position',[1000 1000 900 600]);
             %subplot(2,3,1);
             % Plotting the traject
@@ -157,20 +158,24 @@ classdef Airplane < handle
             % Plotting the speed/ relative speed
             speed = obj.speed(traject);
             relspeed = obj.relativespeed(traject);
-            x = linspace(0,1,obj.N-1);
+            x = time(1:end-1);
             plot(x,speed);
             hold on
             box on
             plot(x,relspeed,'r');
             %legend('speed','relative speed');
-            ylabel('speed')
+            ylabel('Speed')
+            xlabel('Time')
             hold off
+            title('Speed in function of time')
             exportfig('plots/speed.eps')
             figure('position',[1000 1000 900 600]); %subplot(2,3,3);
             % Plotting the solar gain
             sunCost = obj.sunCost(traject);
-            x = linspace(0,1,obj.N-1);
-            plot(x,-sunCost);
+            x = time(1:end-1);
+            plot(x,sunCost);
+            xlabel('Time')
+            title('Solar gain as a function of time')
             ylabel('Sun gain')
             box on
             exportfig('plots/sun.eps')
@@ -178,7 +183,7 @@ classdef Airplane < handle
             % Plotting the accel
             accel = obj.acceleration(traject);
             %legend('acceleration')
-            x = linspace(0,1,obj.N-3);
+            x = time(2:end-2);
             plot(x,accel);
             ylabel('Acceleration')
             box on
@@ -186,9 +191,12 @@ classdef Airplane < handle
             figure('position',[1000 1000 900 600]); %subplot(2,3,5)
             % Plotting the energy
             energy = obj.getEnergy(traject);
-            x = linspace(0,1,obj.N);
+            x = time(1:end);
             plot(x,energy);
             ylabel('Enegy')
+            xlabel('Time')
+            title('Energy as a function of time')
+            axis([0 30 0 3.5])
             box on
             exportfig('plots/Energy.eps')
             figure('position',[1000 1000 900 600]); %subplot(2,3,6)
