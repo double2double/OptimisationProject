@@ -26,7 +26,12 @@ Next we will give a brief explanation about all of these parameters and their ma
 The solar gain is roughly defined as the amount fo sun than can  be picked up trough the flight.
 The local amount of sun is determined by two factors, the angle of the sun at that time and that place and the local cloud density.
 
-For the inclination angle of the sun we used \textbf{\dots STIL TO DO}
+However the angle of the sun consists of declination and hour angle. For the declination $\theta$ of the sun, which looks at the sun's position north south of the equator  we use the approximation formula:
+\begin{equation}
+\theta = 23.45 * sin(360/365 * (d -81)*pi/180);
+\end{equation}
+With $d$ denoting the number of days since the beginning of the year. The other important angle we considered is the hour angle of the sun with depends on the time of the day. However as we are going keep the weather and sun data constant during the flight and we are assuming at flight at noon the hour angle is constant 0.
+
 
 To simulate clouds we where looking for highly autocorrelated random data so that the clouds would be located in islands rather than being scattered without any pattern in the sky.
 The technique we applied was to generate a low dimensional random matrix and extrapolate the data points to get a continuous grid.

@@ -22,12 +22,14 @@ classdef Airplane < handle
         solarWeight = 1;
         posWeight = 1;
         accelerationWeight = 100;
+        Vend = Inf;
+        bestPath = [];
     end
     methods
         function obj = Airplane(clouds,windX,windY,X,Y,sun)
-            obj.solarGain = clouds .* sun;
-            obj.windX = windX;
-            obj.windY = windY;
+            obj.solarGain = clouds.*sun ;
+            obj.windX = 0.04*windX;
+            obj.windY = 0.04*windY;
             obj.X = X;
             obj.Y = Y;
             [obj.N,~] = size(X);
@@ -40,28 +42,42 @@ classdef Airplane < handle
             obj.xEnd = x;
             obj.yEnd = y;
         end
-        function [ V ] = weatherSpeedCost(obj, traject )
-            % Debug cost function to check whats done so far.
-            % setting up some parameters
-            Vaccel = 1/200;
-            Vsun = -500;
-            Vdrag = 20;
-            % Calculating the traject lenght.
-            stepLength = obj.stepLength(traject);
-            dt = obj.timeSteps(traject);
-            speed = stepLength./dt;
-            acceleration = zeros(obj.N-3,1);
-            % Calculating the acceleration
-            for i = 1:(obj.N-3)
-                %evalute central differences to find the second derivative:
-                acceleration(i) = (stepLength(i) - 2*stepLength(i+1) + stepLength(i+2))/(dt(i)^2);
-            end
-            
-            posAcceleration = acceleration((acceleration > 0));
+        
+        function [ V ] = energyEnd(obj, traject )
+            %This is the cost function that is later passed onto the solver.
+            energy = obj.getEnergy(traject);
+            V = -energy(end)
+        end
+        function Energy = getEnergy(obj,traject)
+            %This function computes the energy of the plane, consiting of
+            %relative speed acceleration (compute from the absolute speed) and
+            %the solar energy converted trough the panels.
+            Vaccel = -0.03;
+            Vsun = 1;
+            Vdrag = -100;
+            % Calculating the relative speed
+            speed = obj.relativespeed(traject);
+            % Calculating the acceleration cost
+            acceleration = obj.acceleration(traject);
+            posAcceleration = acceleration.*(acceleration > 0);
+            posAcceleration = [posAcceleration;0;0];
             Accel = posAcceleration'*posAcceleration;
-            
             %Weather cost.
-            Sun = 0;
+            Sun = obj.sunCost(traject);
+            % Calculating Energy per step
+            Energy = zeros(obj.N,1);
+            for i = 2:obj.N
+                Energy(i) = Energy(i-1)+ Sun(i-1).*Vsun ...
+                                       + speed(i-1)^2*Vdrag ...
+                                       + posAcceleration(i-1)^2*Vaccel;
+            end
+        end
+        % Some aid functions.
+        function weather = sunCost(obj,traject)
+            %compute the solar energy converted. 
+            dt = traject(1:end-1,3);
+            stepLength = obj.stepLength(traject);
+            weather = zeros(obj.N-1,1);
             for i = 1:1:(obj.N-1)
                 %Get the position.
                 xPos = traject(i,1);
@@ -78,20 +94,11 @@ classdef Airplane < handle
                     tmp = tmp+currentSolarGain;
                 end
                 tmp = tmp/n;        % The average sun at the path
-                Sun = Sun+ tmp*dt(i);
-            end   
-            % Calculating the V
-            Sun = tmp .* Vsun;  
-            Drag = speed'*speed*Vdrag;
-            Accel = Accel*Vaccel;
-            obj.V(1) = Accel;
-            obj.V(2) = Sun;
-            obj.V(3) = Drag;
-            V = obj.power+sum(obj.V);
-            obj.V
-
+                weather(i) = tmp*dt(i);
+            end 
         end
-        % Some aid functions.
+        
+        
         function stepLen = stepLength(obj,traject)
             stepLen = zeros(obj.N-1,1);
             for i = 1:(obj.N-1)
@@ -100,24 +107,29 @@ classdef Airplane < handle
             
         end
         function speed = speed(obj,traject)
-            stepLen = zeros(obj.N-1,1);
-            dt = zeros(obj.N-1,1);
-            for i = 1:(obj.N-1)
-                 stepLen(i) = norm(traject(i,1:2) - traject(i+1,1:2));
-                 dt(i) = traject(i+1,3) - traject(i,3);
-            end
+            dt = traject(1:end-1,3);
+            stepLen = obj.stepLength(traject);
             speed = stepLen./dt;
         end
-        function dt = timeSteps(obj,traject)
-            dt = zeros(obj.N-1,1);
+        function Vrel = relativespeed(obj,traject)
+            dt = traject(1:end-1,3);
+            Vrel = zeros(obj.N-1,1);
             for i = 1:(obj.N-1)
-                 dt(i) = traject(i+1,3) - traject(i,3);
+                 vx = (traject(i+1,1) - traject(i,1))./dt(i);
+                 vy = (traject(i+1,2) - traject(i,2))./dt(i);
+                 x = (traject(i,1) - traject(i+1,1))/2;
+                 y = (traject(i,2) - traject(i+1,2))/2;
+                 vwindx = interp2(obj.X,obj.Y,obj.windX,x,y,'spline');
+                 vwindy = interp2(obj.X,obj.Y,obj.windY,x,y,'spline');
+                 vrelx = (vx - vwindx);
+                 vrely = (vy - vwindy);
+                 Vrel(i) = norm([vrelx vrely]);
             end
         end
         function accel = acceleration(obj,traject)
             accel = zeros(obj.N-3,1);
             stepLength = obj.stepLength(traject);
-            dt = obj.timeSteps(traject);
+            dt = traject(1:end-1,3);
             for i = 1:(obj.N-3)
                 %evalute central differences to find the second derivative:
                 accel(i) = (stepLength(i) - 2*stepLength(i+1) + stepLength(i+2))/(dt(i)^2);
@@ -128,8 +140,85 @@ classdef Airplane < handle
             surf(obj.X,obj.Y,(obj.solarGain))
             hold on
             hig = 0.*traject(:,1)+3;
-            plot3(traject(:,1),traject(:,2),hig,'LineWidth', 2,'Color','r');
+            quiver3(obj.X,obj.Y,obj.Y.*0+3,obj.windX,obj.windY,obj.Y.*0,'k');
+            plot3(traject(:,1),traject(:,2),hig,'LineWidth', 5,'Color','k');
             view([0,0,90])
+            axis([0 1 0 1 0 3])
+            hold off
+        end
+        function plotFancy(obj,traject)
+            time = cumsum(traject(:,3));
+            figure('position',[1000 1000 900 600]);
+            %subplot(2,3,1);
+            % Plotting the traject
+            surf(obj.X,obj.Y,(obj.solarGain))
+            hold on
+            hig = 0.*traject(:,1)+3;
+            quiver3(obj.X,obj.Y,obj.Y.*0+3,obj.windX,obj.windY,obj.Y.*0,'k');
+            plot3(traject(:,1),traject(:,2),hig,'LineWidth', 5,'Color','k');
+            view([0,0,90])
+            axis([0 1 0 1 0 3])
+            hold off
+            exportfig('plots/path.eps')
+            figure('position',[1000 1000 900 600]); %subplot(2,3,2);
+            % Plotting the speed/ relative speed
+            speed = obj.speed(traject);
+            relspeed = obj.relativespeed(traject);
+            x = time(1:end-1);
+            plot(x,speed);
+            hold on
+            box on
+            plot(x,relspeed,'r');
+            %legend('speed','relative speed');
+            ylabel('Speed')
+            xlabel('Time')
+            hold off
+            title('Speed in function of time')
+            exportfig('plots/speed.eps')
+            figure('position',[1000 1000 900 600]); %subplot(2,3,3);
+            % Plotting the solar gain
+            sunCost = obj.sunCost(traject);
+            x = time(1:end-1);
+            plot(x,sunCost);
+            xlabel('Time')
+            title('Solar gain as a function of time')
+            ylabel('Sun gain')
+            box on
+            exportfig('plots/sun.eps')
+            figure('position',[1000 1000 900 600]); %subplot(2,3,4);
+            % Plotting the accel
+            accel = obj.acceleration(traject);
+            %legend('acceleration')
+            x = time(2:end-2);
+            plot(x,accel);
+            ylabel('Acceleration')
+            box on
+            exportfig('plots/acc.eps')
+            figure('position',[1000 1000 900 600]); %subplot(2,3,5)
+            % Plotting the energy
+            energy = obj.getEnergy(traject);
+            x = time(1:end);
+            plot(x,energy);
+            ylabel('Enegy')
+            xlabel('Time')
+            title('Energy as a function of time')
+            axis([0 30 0 5])
+            box on
+            exportfig('plots/Energy.eps')
+            figure('position',[1000 1000 900 600]); %subplot(2,3,6)
+            % Plotting the energy
+            energy = obj.getEnergy(traject);
+            x = linspace(0,1,obj.N);
+            de = zeros(obj.N-1,1);
+            for i=1:obj.N-1
+                de(i) = (energy(i+1)-energy(i))/(x(i+1)-x(i));
+            end
+            x = linspace(0,1,obj.N-1);
+            plot(x,de);
+            ylabel('Enegy per step')
+            box on
+            exportfig('plots/De.eps')
+            
         end
         function value = getSun(obj, x, y)
             % A method to return a function object 
